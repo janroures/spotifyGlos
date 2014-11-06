@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <sonos-objc/SonosManager.h>
+#import <Parse/Parse.h>
 
 @interface AppDelegate ()
 
@@ -17,6 +18,10 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [Parse setApplicationId:@"5HQQuuB7Oo85wgcQuOElTPyy81aexHCttCSf5OIi"
+                  clientKey:@"5xAP2COeyMvEXg62DvnU1LtsHOFd5x7ZZjhRMO6s"];
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     return YES;
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>5EE7CF6D-AE1B-4856-9072-8D2D96F69EC7</string>
+	<key>IDESourceControlProjectName</key>
+	<string>spotifyGlos</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>5DB965B2413019452BE075E10C1E2B9D004CCF5C</key>
+		<string>https://github.com/spacedrabbit/spotifyGlos.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>spotifyGlos.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>5DB965B2413019452BE075E10C1E2B9D004CCF5C</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/spacedrabbit/spotifyGlos.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>5DB965B2413019452BE075E10C1E2B9D004CCF5C</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>5DB965B2413019452BE075E10C1E2B9D004CCF5C</string>
+			<key>IDESourceControlWCCName</key>
+			<string>spotifyGlos</string>
+		</dict>
+	</array>
+</dict>
+</plist>

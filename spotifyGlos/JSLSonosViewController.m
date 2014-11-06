@@ -12,6 +12,8 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/AFNetworking.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
+#import "User.h"
+
 
 @interface JSLSonosViewController ()
 
@@ -33,6 +35,21 @@
 @property (strong, nonatomic) __block UIImage *albumImage;
 @property (nonatomic) __block NSInteger currentVolume;
 
+//Users stuff
+@property(strong,nonatomic)NSMutableArray *usersArray;
+@property(strong,nonatomic)User *user;
+
+@property(strong,nonatomic)NSString *retrievedUserName;
+@property(strong,nonatomic)NSString *retrievedUserID;
+@property(nonatomic)BOOL retrievedIsAdmin;
+@property(strong,nonatomic)NSNumber *retrievedtimesAdmin;
+@property(strong,nonatomic)NSNumber *retrievedreceivedUpvotes;
+@property(strong,nonatomic)NSNumber *retrievedreceivedDownvotes;
+@property(strong,nonatomic)NSMutableArray *retrievedtopSongs;
+
+
+//Users stuff ends
+
 
 @property (strong, nonatomic) NSArray *devices;
 @property (strong, nonatomic) __block NSMutableDictionary *songInfo;
@@ -47,6 +64,50 @@
     self.songInfo = [[NSMutableDictionary alloc] init];
     self.sonosManager = [SonosManager sharedInstance];
     self.currentDevice = self.sonosManager.currentDevice;
+    
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Users"];
+    
+    [query getObjectInBackgroundWithId:@"xOQ1BJGl3X" block:^(PFObject *user, NSError *error) {
+        // Do something with the returned PFObject in the gameScore variable.
+        PFObject *newUser=user;
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            NSString *retrievedUserName=[newUser objectForKey:@"name"];
+            BOOL retrievedIsAdmin;
+            if ([[newUser objectForKey:@"isAdmin"] isEqual:@0]) {
+                retrievedIsAdmin=NO;
+            }else{
+                retrievedIsAdmin=YES;
+            }
+            NSNumber *retrievedtimesAdmin=[newUser objectForKey:@"timesAdmin"];
+            NSNumber *retrievedreceivedUpvotes=[newUser objectForKey:@"receivedUpvotes"];
+            NSNumber *retrievedreceivedDownvotes=[newUser objectForKey:@"receivedDownvotes"];
+            NSMutableArray *retrievedtopSongs=[NSMutableArray arrayWithArray:[newUser objectForKey:@"topSongs"]];
+            
+            self.user=[[User alloc]initWithUserName:retrievedUserName isAdmin:retrievedIsAdmin timesAdmin:retrievedtimesAdmin receivedUpvotes:retrievedreceivedUpvotes receivedDownvotes:retrievedreceivedDownvotes topSongs:retrievedtopSongs];
+            
+            NSLog(@"%@", self.user);
+            
+            
+        }];
+    }];
+    
+    
+    //    NSString *retrievedUserName=[newUser objectForKey:@"name"];
+    //    BOOL retrievedIsAdmin;
+    //    if ([[newUser objectForKey:@"isAdmin"] isEqual:@0]) {
+    //        retrievedIsAdmin=NO;
+    //    }else{
+    //        retrievedIsAdmin=YES;
+    //    }
+    //    NSNumber *retrievedtimesAdmin=[newUser objectForKey:@"timesAdmin"];
+    //    NSNumber *retrievedreceivedUpvotes=[newUser objectForKey:@"receivedUpvotes"];
+    //    NSNumber *retrievedreceivedDownvotes=[newUser objectForKey:@"receivedDownvotes"];
+    //    NSMutableArray *retrievedtopSongs=[NSMutableArray arrayWithArray:[newUser objectForKey:@"topSongs"]];
+    //
+    //    self.user=[[User alloc]initWithUserName:retrievedUserName isAdmin:retrievedIsAdmin timesAdmin:retrievedtimesAdmin receivedUpvotes:retrievedreceivedUpvotes receivedDownvotes:retrievedreceivedDownvotes topSongs:retrievedtopSongs];
+    //
+    //    NSLog(@"%@, %@, %@, %@, %@, %@, ", self.user.userName, self.user.isAdmin, self.user.timesAdmin, self.user.receivedUpvotes, self.user.receivedDownvotes, self.user.topSongs);
     
     [self setUpConstraints];
     
