@@ -9,24 +9,28 @@
 #import "SonosController.h"
 #import "AFNetworking.h"
 #import "XMLReader.h"
+#import "User.h"
 
 @interface SonosController()
 - (void)upnp:(NSString *)url soap_service:(NSString *)soap_service soap_action:(NSString *)soap_action soap_arguments:(NSString *)soap_arguments completion:(void (^)(NSDictionary *, NSError *))block;
 @end
 
 @implementation SonosController
-@synthesize ip, port;
+@synthesize ip, port, owner;
 
 - (id)initWithIP:(NSString *)ip_ {
-    self = [self initWithIP:ip_ port:1400];
+    self = [self initWithIP:ip_ port:1400 owner:[[User alloc]init]];
     return self;
 }
 
-- (id)initWithIP:(NSString *)ip_ port:(int)port_ {
+- (id)initWithIP:(NSString *)ip_ port:(int)port_ owner:(User *)owner_{
     self = [super init];
     
     self.ip = ip_;
     self.port = port_;
+    if (owner_.isAdmin==YES) {
+        self.owner = owner_;
+    }
     
     return self;
 }
@@ -199,6 +203,7 @@
              NSLog(@"%@", trackMetaData);
              
              // Figure out what kind of data is playing
+             
              // Spotify:
              if([trackMetaData[@"DIDL-Lite"][@"item"][@"res"][@"protocolInfo"] isEqualToString:@"sonos.com-spotify:*:audio/x-spotify:*"]) {
                  [returnData addEntriesFromDictionary:@{
@@ -207,19 +212,28 @@
                                                         @"MetaDataAlbum" : trackMetaData[@"DIDL-Lite"][@"item"][@"upnp:album"][@"text"],
                                                         @"MetaDataAlbumArtURI" : trackMetaData[@"DIDL-Lite"][@"item"][@"upnp:albumArtURI"][@"text"]
                                                         }];
-                 NSLog(@"Spotify found");
                  
              }
              
+             // Pandora:
+             if([trackMetaData[@"DIDL-Lite"][@"item"][@"res"][@"protocolInfo"] isEqualToString:@"pandora.com-pndrradio-http:*:audio/mpeg:*"]) {
+                 [returnData addEntriesFromDictionary:@{
+                                                        @"MetaDataCreator" : trackMetaData[@"DIDL-Lite"][@"item"][@"dc:creator"][@"text"],
+                                                        @"MetaDataTitle" : trackMetaData[@"DIDL-Lite"][@"item"][@"dc:title"][@"text"],
+                                                        @"MetaDataAlbum" : trackMetaData[@"DIDL-Lite"][@"item"][@"upnp:album"][@"text"],
+                                                        @"MetaDataAlbumArtURI" : trackMetaData[@"DIDL-Lite"][@"item"][@"upnp:albumArtURI"][@"text"]
+                                                        }];
+             }
+
+             
              // TuneIn Radio:
-             if([trackMetaData[@"DIDL-Lite"][@"item"][@"res"][@"protocolInfo"] isEqualToString:@"x-rincon-mp3radio:*:*:*"]) {
+             if([trackMetaData[@"DIDL-Lite"][@"item"][@"res"][@"protocolInfo"] isEqualToString:@"aac:*:application/octet-stream:*"]) {
                  [returnData addEntriesFromDictionary:@{
                                                         @"MetaDataCreator" : @"",
                                                         @"MetaDataTitle" : trackMetaData[@"DIDL-Lite"][@"item"][@"r:streamContent"][@"text"],
                                                         @"MetaDataAlbum" : @"",
                                                         @"MetaDataAlbumArtURI" : @""
                                                         }];
-                 NSLog(@"TuneIn Radio found");
              }
              
              // HTTP Streaming (?) SoundCloud returns this protocol for me
@@ -230,23 +244,8 @@
                                                         @"MetaDataAlbum" : @"",
                                                         @"MetaDataAlbumArtURI" : trackMetaData[@"DIDL-Lite"][@"item"][@"upnp:albumArtURI"][@"text"]
                                                         }];
-                 NSLog(@"HTTP Stream Foud");
              }
-             //"pandora.com-pndrradio-http:*:audio/mpeg:*"
-             //pandora radio - added by louis 11/2
-             if([trackMetaData[@"DIDL-Lite"][@"item"][@"res"][@"protocolInfo"] isEqualToString:@"pandora.com-pndrradio-http:*:audio/mpeg:*"]) {
-                 [returnData addEntriesFromDictionary:@{
-                                                        @"MetaDataCreator" : trackMetaData[@"DIDL-Lite"][@"item"][@"dc:creator"][@"text"],
-                                                        @"MetaDataTitle" : trackMetaData[@"DIDL-Lite"][@"item"][@"dc:title"][@"text"],
-                                                        @"MetaDataAlbum" : trackMetaData[@"DIDL-Lite"][@"item"][@"upnp:album"][@"text"],
-                                                        @"MetaDataAlbumArtURI" : trackMetaData[@"DIDL-Lite"][@"item"][@"upnp:albumArtURI"][@"text"]
-                                                        }];
-                 NSLog(@"Pandora Stream Found");
-             }
-
          }
-         
-         
          
          if(block) block(returnData, nil);
      }];

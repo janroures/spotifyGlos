@@ -6,53 +6,43 @@
 	<dict>
 		<key>Pods-spotifyGlos-AFNetworking.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>2</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods-spotifyGlos-CocoaAsyncSocket.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>3</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods-spotifyGlos-MBProgressHUD.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>4</integer>
-		</dict>
-		<key>Pods-spotifyGlos-sonos-objc.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>5</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods-spotifyGlos.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>1</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0AD0FA559B4189414D727E26</key>
+		<key>289B890E7AE535E34A65329B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2951C5D07D0D6C854C4DA5F5</key>
+		<key>2EF2335CE4E03B09BC18B8A1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5715D22B1490AE05AC8BBB46</key>
+		<key>44CAB4BFBC0ED0010AF17706</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>750084FD2AE9BF1A9080719A</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>EEF9A30E4CA14F5740BC367E</key>
+		<key>656B0FA8F1E976F6DBC0B070</key>
 		<dict>
 			<key>primary</key>
 			<true/>

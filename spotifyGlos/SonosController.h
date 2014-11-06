@@ -28,17 +28,20 @@
 
 
 #import <Foundation/Foundation.h>
+#import "User.h"
 
 @interface SonosController : NSObject
 
 @property (nonatomic, retain) NSString *ip;
 @property (nonatomic, assign) int port;
+@property (strong,nonatomic)User *owner;
+
 
 /**
  Creates and returns a Sonos Controller object. By default, the SOAP interface on Sonos Devices operate on port 1400, but use initWithIP:port: if you need to specify another port
  */
 - (id)initWithIP:(NSString *)ip_;
-- (id)initWithIP:(NSString *)ip_ port:(int)port_;
+- (id)initWithIP:(NSString *)ip_ port:(int)port_ owner:(User *)owner_;
 
 /**
  All SOAP methods returns asynchronus XML data from the Sonos Device in dictionary format for easy reading.

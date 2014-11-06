@@ -7,7 +7,7 @@
 //
 
 #import "JSLSonosViewController.h"
-#import <sonos-objc/SonosManager.h>
+#import "SonosManager.h"
 #import "UIView+FrameGetters.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/AFNetworking.h>
@@ -27,7 +27,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *songNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *artistNameLabel;
 @property (weak, nonatomic) IBOutlet UIView *buttonContainer;
-
+@property (weak, nonatomic) IBOutlet UIButton *playButton;
 
 @property (strong, nonatomic) SonosManager *sonosManager;
 @property (strong, nonatomic) __block SonosController *currentDevice;
@@ -35,21 +35,21 @@
 @property (strong, nonatomic) __block UIImage *albumImage;
 @property (nonatomic) __block NSInteger currentVolume;
 
-//Users stuff
+@property(nonatomic)BOOL isPlaying;
+
+//User stuff
+
 @property(strong,nonatomic)NSMutableArray *usersArray;
 @property(strong,nonatomic)User *user;
 
-@property(strong,nonatomic)NSString *retrievedUserName;
-@property(strong,nonatomic)NSString *retrievedUserID;
-@property(nonatomic)BOOL retrievedIsAdmin;
-@property(strong,nonatomic)NSNumber *retrievedtimesAdmin;
-@property(strong,nonatomic)NSNumber *retrievedreceivedUpvotes;
-@property(strong,nonatomic)NSNumber *retrievedreceivedDownvotes;
-@property(strong,nonatomic)NSMutableArray *retrievedtopSongs;
+//@property(strong,nonatomic)NSString *retrievedUserName;
+//@property(nonatomic)BOOL retrievedIsAdmin;
+//@property(strong,nonatomic)NSNumber *retrievedtimesAdmin;
+//@property(strong,nonatomic)NSNumber *retrievedreceivedUpvotes;
+//@property(strong,nonatomic)NSNumber *retrievedreceivedDownvotes;
+//@property(strong,nonatomic)NSMutableArray *retrievedtopSongs;
 
-
-//Users stuff ends
-
+//User stuff ends
 
 @property (strong, nonatomic) NSArray *devices;
 @property (strong, nonatomic) __block NSMutableDictionary *songInfo;
@@ -60,54 +60,50 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.playButton.enabled=NO;
     
     self.songInfo = [[NSMutableDictionary alloc] init];
     self.sonosManager = [SonosManager sharedInstance];
     self.currentDevice = self.sonosManager.currentDevice;
-    
+    self.isPlaying=YES;
     
     PFQuery *query = [PFQuery queryWithClassName:@"Users"];
     
-    [query getObjectInBackgroundWithId:@"xOQ1BJGl3X" block:^(PFObject *user, NSError *error) {
-        // Do something with the returned PFObject in the gameScore variable.
-        PFObject *newUser=user;
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    NSMutableArray *usersArray=[NSMutableArray arrayWithArray:[query findObjects]]
+    ;
+    for (PFObject *newUser in usersArray) {
+        if ([[newUser objectForKey:@"isAdmin"]isEqual:@1]) {
+            self.playButton.enabled=YES;
             NSString *retrievedUserName=[newUser objectForKey:@"name"];
-            BOOL retrievedIsAdmin;
-            if ([[newUser objectForKey:@"isAdmin"] isEqual:@0]) {
-                retrievedIsAdmin=NO;
-            }else{
-                retrievedIsAdmin=YES;
-            }
+            BOOL retrievedIsAdmin=YES;
             NSNumber *retrievedtimesAdmin=[newUser objectForKey:@"timesAdmin"];
             NSNumber *retrievedreceivedUpvotes=[newUser objectForKey:@"receivedUpvotes"];
             NSNumber *retrievedreceivedDownvotes=[newUser objectForKey:@"receivedDownvotes"];
             NSMutableArray *retrievedtopSongs=[NSMutableArray arrayWithArray:[newUser objectForKey:@"topSongs"]];
             
             self.user=[[User alloc]initWithUserName:retrievedUserName isAdmin:retrievedIsAdmin timesAdmin:retrievedtimesAdmin receivedUpvotes:retrievedreceivedUpvotes receivedDownvotes:retrievedreceivedDownvotes topSongs:retrievedtopSongs];
-            
-            NSLog(@"%@", self.user);
-            
-            
-        }];
-    }];
+        }
+    }
     
-    
-    //    NSString *retrievedUserName=[newUser objectForKey:@"name"];
-    //    BOOL retrievedIsAdmin;
-    //    if ([[newUser objectForKey:@"isAdmin"] isEqual:@0]) {
-    //        retrievedIsAdmin=NO;
-    //    }else{
-    //        retrievedIsAdmin=YES;
-    //    }
-    //    NSNumber *retrievedtimesAdmin=[newUser objectForKey:@"timesAdmin"];
-    //    NSNumber *retrievedreceivedUpvotes=[newUser objectForKey:@"receivedUpvotes"];
-    //    NSNumber *retrievedreceivedDownvotes=[newUser objectForKey:@"receivedDownvotes"];
-    //    NSMutableArray *retrievedtopSongs=[NSMutableArray arrayWithArray:[newUser objectForKey:@"topSongs"]];
-    //
-    //    self.user=[[User alloc]initWithUserName:retrievedUserName isAdmin:retrievedIsAdmin timesAdmin:retrievedtimesAdmin receivedUpvotes:retrievedreceivedUpvotes receivedDownvotes:retrievedreceivedDownvotes topSongs:retrievedtopSongs];
-    //
-    //    NSLog(@"%@, %@, %@, %@, %@, %@, ", self.user.userName, self.user.isAdmin, self.user.timesAdmin, self.user.receivedUpvotes, self.user.receivedDownvotes, self.user.topSongs);
+//    [query getObjectInBackgroundWithId:@"xOQ1BJGl3X" block:^(PFObject *user, NSError *error) {
+//        // Do something with the returned PFObject in the gameScore variable.
+//        PFObject *newUser=user;
+//        NSString *retrievedUserName=[newUser objectForKey:@"name"];
+//        BOOL retrievedIsAdmin;
+//        if ([[newUser objectForKey:@"isAdmin"] isEqual:@0]) {
+//            retrievedIsAdmin=NO;
+//        }else{
+//            retrievedIsAdmin=YES;
+//        }
+//        NSNumber *retrievedtimesAdmin=[newUser objectForKey:@"timesAdmin"];
+//        NSNumber *retrievedreceivedUpvotes=[newUser objectForKey:@"receivedUpvotes"];
+//        NSNumber *retrievedreceivedDownvotes=[newUser objectForKey:@"receivedDownvotes"];
+//        NSMutableArray *retrievedtopSongs=[NSMutableArray arrayWithArray:[newUser objectForKey:@"topSongs"]];
+//        
+//        self.user=[[User alloc]initWithUserName:retrievedUserName isAdmin:retrievedIsAdmin timesAdmin:retrievedtimesAdmin receivedUpvotes:retrievedreceivedUpvotes receivedDownvotes:retrievedreceivedDownvotes topSongs:retrievedtopSongs];
+//        
+//        
+//    }];
     
     [self setUpConstraints];
     
@@ -134,41 +130,41 @@
                                                                               options:0
                                                                               metrics:metrics
                                                                                 views:elementsDictionary]
-                                     ];
+                                      ];
     
- 
+    
     
     [self addConstraints:coverArtConstraints toView:self.view andClearConstraints:NO];
     [self.albumArt setBackgroundColor:[UIColor redColor]];
     
     NSLayoutConstraint *labelXConstraints = [NSLayoutConstraint constraintWithItem:self.artistNameLabel
-                                                                        attribute:NSLayoutAttributeCenterX
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:self.view
-                                                                        attribute:NSLayoutAttributeCenterX
-                                                                       multiplier:1.0
-                                                                         constant:0];
+                                                                         attribute:NSLayoutAttributeCenterX
+                                                                         relatedBy:NSLayoutRelationEqual
+                                                                            toItem:self.view
+                                                                         attribute:NSLayoutAttributeCenterX
+                                                                        multiplier:1.0
+                                                                          constant:0];
     NSLayoutConstraint *labelYConstraints = [NSLayoutConstraint constraintWithItem:self.artistNameLabel
-                                                                        attribute:NSLayoutAttributeTop
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:self.albumArt
-                                                                        attribute:NSLayoutAttributeBottom
-                                                                       multiplier:1.0
-                                                                         constant:10];
+                                                                         attribute:NSLayoutAttributeTop
+                                                                         relatedBy:NSLayoutRelationEqual
+                                                                            toItem:self.albumArt
+                                                                         attribute:NSLayoutAttributeBottom
+                                                                        multiplier:1.0
+                                                                          constant:10];
     NSLayoutConstraint *labelWidthConstraints = [NSLayoutConstraint constraintWithItem:self.artistNameLabel
-                                                                        attribute:NSLayoutAttributeWidth
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:self.albumArt
-                                                                        attribute:NSLayoutAttributeWidth
-                                                                        multiplier:.75
-                                                                         constant:0];
-    NSLayoutConstraint *labelHeightConstraints = [NSLayoutConstraint constraintWithItem:self.artistNameLabel
-                                                                             attribute:NSLayoutAttributeHeight
+                                                                             attribute:NSLayoutAttributeWidth
                                                                              relatedBy:NSLayoutRelationEqual
-                                                                                toItem:nil
-                                                                             attribute:NSLayoutAttributeNotAnAttribute
-                                                                            multiplier:1.0
-                                                                              constant:40];
+                                                                                toItem:self.albumArt
+                                                                             attribute:NSLayoutAttributeWidth
+                                                                            multiplier:.75
+                                                                              constant:0];
+    NSLayoutConstraint *labelHeightConstraints = [NSLayoutConstraint constraintWithItem:self.artistNameLabel
+                                                                              attribute:NSLayoutAttributeHeight
+                                                                              relatedBy:NSLayoutRelationEqual
+                                                                                 toItem:nil
+                                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                                             multiplier:1.0
+                                                                               constant:40];
     [self.view addConstraint:labelXConstraints];
     [self.view addConstraint:labelYConstraints];
     [self.view addConstraint:labelWidthConstraints];
@@ -176,34 +172,34 @@
     [self.artistNameLabel setBackgroundColor:[UIColor blueColor]];
     
     NSLayoutConstraint *songLabelXConstraints = [NSLayoutConstraint constraintWithItem:self.songNameLabel
-                                                                         attribute:NSLayoutAttributeCenterX
-                                                                         relatedBy:NSLayoutRelationEqual
-                                                                            toItem:self.view
-                                                                         attribute:NSLayoutAttributeCenterX
-                                                                        multiplier:1.0
-                                                                          constant:0];
+                                                                             attribute:NSLayoutAttributeCenterX
+                                                                             relatedBy:NSLayoutRelationEqual
+                                                                                toItem:self.view
+                                                                             attribute:NSLayoutAttributeCenterX
+                                                                            multiplier:1.0
+                                                                              constant:0];
     
     NSLayoutConstraint *songLabelYConstraints = [NSLayoutConstraint constraintWithItem:self.songNameLabel
-                                                                         attribute:NSLayoutAttributeTop
-                                                                         relatedBy:NSLayoutRelationEqual
-                                                                            toItem:self.artistNameLabel
-                                                                         attribute:NSLayoutAttributeBottom
-                                                                        multiplier:1.0
-                                                                          constant:10];
-    NSLayoutConstraint *songLabelWidthConstraints = [NSLayoutConstraint constraintWithItem:self.songNameLabel
-                                                                             attribute:NSLayoutAttributeWidth
+                                                                             attribute:NSLayoutAttributeTop
                                                                              relatedBy:NSLayoutRelationEqual
-                                                                                toItem:self.albumArt
-                                                                             attribute:NSLayoutAttributeWidth
-                                                                            multiplier:.75
-                                                                              constant:0];
+                                                                                toItem:self.artistNameLabel
+                                                                             attribute:NSLayoutAttributeBottom
+                                                                            multiplier:1.0
+                                                                              constant:10];
+    NSLayoutConstraint *songLabelWidthConstraints = [NSLayoutConstraint constraintWithItem:self.songNameLabel
+                                                                                 attribute:NSLayoutAttributeWidth
+                                                                                 relatedBy:NSLayoutRelationEqual
+                                                                                    toItem:self.albumArt
+                                                                                 attribute:NSLayoutAttributeWidth
+                                                                                multiplier:.75
+                                                                                  constant:0];
     NSLayoutConstraint *songLabelHeightConstraints = [NSLayoutConstraint constraintWithItem:self.songNameLabel
-                                                                              attribute:NSLayoutAttributeHeight
-                                                                              relatedBy:NSLayoutRelationEqual
-                                                                                 toItem:nil
-                                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                                             multiplier:1.0
-                                                                               constant:40];
+                                                                                  attribute:NSLayoutAttributeHeight
+                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                     toItem:nil
+                                                                                  attribute:NSLayoutAttributeNotAnAttribute
+                                                                                 multiplier:1.0
+                                                                                   constant:40];
     
     [self.view addConstraint:songLabelXConstraints];
     [self.view addConstraint:songLabelYConstraints];
@@ -212,42 +208,41 @@
     [self.songNameLabel setBackgroundColor:[UIColor yellowColor]];
     
     NSLayoutConstraint *buttonContainerXConstraints = [NSLayoutConstraint constraintWithItem:self.buttonContainer
-                                                                             attribute:NSLayoutAttributeCenterX
-                                                                             relatedBy:NSLayoutRelationEqual
-                                                                                toItem:self.view
-                                                                             attribute:NSLayoutAttributeCenterX
-                                                                            multiplier:1.0
-                                                                              constant:0];
+                                                                                   attribute:NSLayoutAttributeCenterX
+                                                                                   relatedBy:NSLayoutRelationEqual
+                                                                                      toItem:self.view
+                                                                                   attribute:NSLayoutAttributeCenterX
+                                                                                  multiplier:1.0
+                                                                                    constant:0];
     
     NSLayoutConstraint *buttonContainerYConstraints = [NSLayoutConstraint constraintWithItem:self.buttonContainer
-                                                                             attribute:NSLayoutAttributeTop
-                                                                             relatedBy:NSLayoutRelationEqual
-                                                                                toItem:self.songNameLabel
-                                                                             attribute:NSLayoutAttributeBottom
-                                                                            multiplier:1.0
-                                                                              constant:10];
+                                                                                   attribute:NSLayoutAttributeTop
+                                                                                   relatedBy:NSLayoutRelationEqual
+                                                                                      toItem:self.songNameLabel
+                                                                                   attribute:NSLayoutAttributeBottom
+                                                                                  multiplier:1.0
+                                                                                    constant:10];
     NSLayoutConstraint *buttonContainerWidthConstraints = [NSLayoutConstraint constraintWithItem:self.buttonContainer
-                                                                                 attribute:NSLayoutAttributeWidth
-                                                                                 relatedBy:NSLayoutRelationEqual
-                                                                                    toItem:self.albumArt
-                                                                                 attribute:NSLayoutAttributeWidth
-                                                                                multiplier:.75
-                                                                                  constant:0];
+                                                                                       attribute:NSLayoutAttributeWidth
+                                                                                       relatedBy:NSLayoutRelationEqual
+                                                                                          toItem:self.albumArt
+                                                                                       attribute:NSLayoutAttributeWidth
+                                                                                      multiplier:.75
+                                                                                        constant:0];
     NSLayoutConstraint *buttonContainerHeightConstraints = [NSLayoutConstraint constraintWithItem:self.buttonContainer
-                                                                                  attribute:NSLayoutAttributeBottom
-                                                                                  relatedBy:NSLayoutRelationEqual
-                                                                                     toItem:self.view
-                                                                                  attribute:NSLayoutAttributeBottom
-                                                                                 multiplier:1.0
-                                                                                   constant:-10];
+                                                                                        attribute:NSLayoutAttributeBottom
+                                                                                        relatedBy:NSLayoutRelationEqual
+                                                                                           toItem:self.view
+                                                                                        attribute:NSLayoutAttributeBottom
+                                                                                       multiplier:1.0
+                                                                                         constant:-10];
     
     [self.view addConstraint:buttonContainerXConstraints];
     [self.view addConstraint:buttonContainerYConstraints];
     [self.view addConstraint:buttonContainerWidthConstraints];
     [self.view addConstraint:buttonContainerHeightConstraints];
     [self.buttonContainer setBackgroundColor:[UIColor purpleColor]];
-
-    
+        
 }
 
 - (void)didReceiveMemoryWarning {
@@ -274,20 +269,19 @@
 }
 
 - (IBAction)showDeviceInfo:(id)sender {
-   // NSLog(@"%@", self.sonosManager.allDevices);
+    // NSLog(@"%@", self.sonosManager.allDevices);
     //NSDictionary *currentDeviceInfo = [NSDictionary dictionaryWithDictionary:self.sonosManager.allDevices[0]];
     //NSLog(@"%@", currentDeviceInfo);
     //self.currentDevice = [[SonosController alloc] initWithIP:currentDeviceInfo[@"ip"]];
     
     // can use the commented out stuff above to get the info; i just pulled out the specific IP
     // for "Soundwall" because the controller randomly assigns the 2 devices it finds in an array
-    self.currentDevice = [[SonosController alloc] initWithIP:@"192.168.2.160" port:1400];
+    self.currentDevice = [[SonosController alloc] initWithIP:@"192.168.2.160" port:1400 owner:self.user];
     NSLog(@"%@", [self.currentDevice class]);
 }
 
 //used to get the current song and set it to self.currentsong
 - (IBAction)showCurrentDeviceInfo:(id)sender {
-    
     /**********************************************************************************
      *
      *  Had to add a new conditional in SonosController.m to account for Pandora radio
@@ -304,55 +298,60 @@
             self.currentSong = [NSMutableDictionary dictionaryWithDictionary:blockDictionary];
             self.songNameLabel.text = self.currentSong[@"MetaDataAlbum"];
             self.artistNameLabel.text = self.currentSong[@"MetaDataCreator"];
-        }
-        else{
+        }else{
             NSLog(@"There was an error getting the current track\n\nThe errors: %@", error);
-            
         }
     }];
 }
 
+
+
+
 - (IBAction)currentVolume:(id)sender {
-    
     [self.currentDevice getVolume:^(NSInteger volume, NSError *error){
         if (!error) {
             NSLog(@"The volume: %li", volume);
             self.currentVolume = volume;
-        }
-        else{
+        }else{
             NSLog(@"The volume: %li , error", volume);
         }
     }];
 }
 
 - (IBAction)getAlbumArt:(id)sender {
-    
     //simple method from the AFNetworking UIImageView category
     NSLog(@"%@" ,self.currentSong[@"MetaDataAlbumArtURI"]);
     [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]] placeholderImage:[UIImage imageNamed:@"ele-earth-icon"]];
-
+    
 }
 
 - (IBAction)playTrack:(id)sender {
     //not entirely sure how/if this works.
-    
-//    {
-//        MetaDataAlbum = "";
-//        MetaDataAlbumArtURI = "/getaa?s=1&u=x-sonos-http%3atrack%253a173058369.mp3%3fsid%3d160%26flags%3d32";
-//        MetaDataCreator = "MUTO.";
-//        MetaDataTitle = "Justin Timberlake - What Goes Around...Comes Around (MUTO Remix)";
-//        RelTime = "0:00:56";
-//        Track = 5;
-//        TrackDuration = "0:03:44";
-//        TrackURI = "x-sonos-http:track%3a173058369.mp3?sid=160&flags=32";
-//    }
+    //    {
+    //        MetaDataAlbum = "";
+    //        MetaDataAlbumArtURI = "/getaa?s=1&u=x-sonos-http%3atrack%253a173058369.mp3%3fsid%3d160%26flags%3d32";
+    //        MetaDataCreator = "MUTO.";
+    //        MetaDataTitle = "Justin Timberlake - What Goes Around...Comes Around (MUTO Remix)";
+    //        RelTime = "0:00:56";
+    //        Track = 5;
+    //        TrackDuration = "0:03:44";
+    //        TrackURI = "x-sonos-http:track%3a173058369.mp3?sid=160&flags=32";
+    //    }
     NSError *err = nil;
     
     NSString *songTitle = self.currentSong[@"MetaDataTitle"];
     NSURL *songURL = [NSURL URLWithString:self.currentSong[@"TrackURI"]];
-    NSString *songStringFromURL = [NSString stringWithContentsOfURL:songURL encoding:NSUTF8StringEncoding error:&err];
+    NSString *songStringFromURL=[NSString stringWithContentsOfURL:songURL encoding:NSUTF8StringEncoding error:&err];
     NSLog(@"the song: %@ and URI: %@ and SongString: %@", songTitle, songURL ,songStringFromURL);
-    
-    [self.currentDevice play:self.currentSong[@"TrackURI"] completion:nil];
+    if (self.isPlaying==YES) {
+        self.isPlaying=NO;
+        [self.currentDevice pause:^(NSDictionary *dictionary, NSError *err) {
+            NSLog(@"Paused");
+        }];
+    }else{
+        self.isPlaying=YES;
+        [self.currentDevice play:self.currentSong[@"TrackURI"] completion:nil];
+        NSLog(@"Playing");
+    }
 }
 @end

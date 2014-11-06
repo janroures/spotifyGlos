@@ -19,22 +19,17 @@
     return sharedInstanceInstance;
 }
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if(self){
         [SonosDiscover discoverControllers:^(NSArray *devices, NSError *error){
             self.allDevices = devices;
-            if(self.allDevices.count > 0){
+            if(self.allDevices.count > 0)
                 self.currentDevice = [self.allDevices objectAtIndex:0];
-                NSLog(@"Devices found");
-            }
-            else{
-                NSLog(@"No devices found");
-            }
+            NSLog(@"Device found");
         }];
     }
     return self;
 }
-
 
 @end

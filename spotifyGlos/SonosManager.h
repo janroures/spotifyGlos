@@ -17,6 +17,6 @@
 // The "current" device, ie. the device that acts if we select "play" now
 @property (strong, readwrite, nonatomic) SonosController *currentDevice;
 
-+ (id)sharedInstance;
++ (instancetype)sharedInstance;
 
 @end

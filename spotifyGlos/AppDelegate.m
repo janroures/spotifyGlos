@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import <sonos-objc/SonosManager.h>
+#import "SonosManager.h"
 #import <Parse/Parse.h>
 
 @interface AppDelegate ()

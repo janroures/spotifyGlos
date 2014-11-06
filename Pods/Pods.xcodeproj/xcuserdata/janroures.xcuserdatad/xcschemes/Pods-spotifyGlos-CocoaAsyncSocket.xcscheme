@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0610"
+   LastUpgradeVersion = "0510"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "750084FD2AE9BF1A9080719A"
+               BlueprintIdentifier = "656B0FA8F1E976F6DBC0B070"
                BuildableName = "libPods-spotifyGlos-CocoaAsyncSocket.a"
                BlueprintName = "Pods-spotifyGlos-CocoaAsyncSocket"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -39,15 +39,6 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "750084FD2AE9BF1A9080719A"
-            BuildableName = "libPods-spotifyGlos-CocoaAsyncSocket.a"
-            BlueprintName = "Pods-spotifyGlos-CocoaAsyncSocket"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -57,15 +48,6 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "750084FD2AE9BF1A9080719A"
-            BuildableName = "libPods-spotifyGlos-CocoaAsyncSocket.a"
-            BlueprintName = "Pods-spotifyGlos-CocoaAsyncSocket"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

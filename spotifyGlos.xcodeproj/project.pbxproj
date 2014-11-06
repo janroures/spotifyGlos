@@ -19,7 +19,12 @@
 		0B3F48581A0B2BDC008742F8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3F484E1A0B2BDC008742F8 /* Security.framework */; };
 		0B3F48591A0B2BDC008742F8 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3F484F1A0B2BDC008742F8 /* StoreKit.framework */; };
 		0B3F485A1A0B2BDC008742F8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3F48501A0B2BDC008742F8 /* SystemConfiguration.framework */; };
-		0B3F485F1A0B2CB7008742F8 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F485E1A0B2CB7008742F8 /* User.m */; };
+		0B3F48681A0B2F34008742F8 /* SonosController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F48611A0B2F34008742F8 /* SonosController.m */; };
+		0B3F48691A0B2F34008742F8 /* SonosDiscover.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F48631A0B2F34008742F8 /* SonosDiscover.m */; };
+		0B3F486A1A0B2F34008742F8 /* SonosManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F48651A0B2F34008742F8 /* SonosManager.m */; };
+		0B3F486B1A0B2F34008742F8 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F48671A0B2F34008742F8 /* XMLReader.m */; };
+		0B580AD01A0BDC820019A6AC /* sonos_device_xml.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0B580ACF1A0BDC820019A6AC /* sonos_device_xml.xml */; };
+		0BE2E1751A0C0829003CC782 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE2E1741A0C0829003CC782 /* User.m */; };
 		B10C54701A041F7F00A92E62 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B10C546F1A041F7F00A92E62 /* main.m */; };
 		B10C54731A041F7F00A92E62 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B10C54721A041F7F00A92E62 /* AppDelegate.m */; };
 		B10C54761A041F7F00A92E62 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B10C54751A041F7F00A92E62 /* ViewController.m */; };
@@ -56,8 +61,17 @@
 		0B3F484E1A0B2BDC008742F8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0B3F484F1A0B2BDC008742F8 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		0B3F48501A0B2BDC008742F8 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		0B3F485D1A0B2CB7008742F8 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = ../../../.Trash/spotifyGlos/spotifyGlos/User.h; sourceTree = "<group>"; };
-		0B3F485E1A0B2CB7008742F8 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = User.m; path = ../../../.Trash/spotifyGlos/spotifyGlos/User.m; sourceTree = "<group>"; };
+		0B3F48601A0B2F34008742F8 /* SonosController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SonosController.h; sourceTree = "<group>"; };
+		0B3F48611A0B2F34008742F8 /* SonosController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SonosController.m; sourceTree = "<group>"; };
+		0B3F48621A0B2F34008742F8 /* SonosDiscover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SonosDiscover.h; sourceTree = "<group>"; };
+		0B3F48631A0B2F34008742F8 /* SonosDiscover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SonosDiscover.m; sourceTree = "<group>"; };
+		0B3F48641A0B2F34008742F8 /* SonosManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SonosManager.h; sourceTree = "<group>"; };
+		0B3F48651A0B2F34008742F8 /* SonosManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SonosManager.m; sourceTree = "<group>"; };
+		0B3F48661A0B2F34008742F8 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
+		0B3F48671A0B2F34008742F8 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
+		0B580ACF1A0BDC820019A6AC /* sonos_device_xml.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sonos_device_xml.xml; sourceTree = "<group>"; };
+		0BE2E1731A0C0829003CC782 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		0BE2E1741A0C0829003CC782 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		1E5F2E688A1B134E904E5383 /* libPods-spotifyGlos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-spotifyGlos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		77C6430A8419424EDA0BDDDB /* Pods-spotifyGlos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-spotifyGlos.release.xcconfig"; path = "Pods/Target Support Files/Pods-spotifyGlos/Pods-spotifyGlos.release.xcconfig"; sourceTree = "<group>"; };
 		A6A06287EA64436335012A93 /* Pods-spotifyGlos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-spotifyGlos.debug.xcconfig"; path = "Pods/Target Support Files/Pods-spotifyGlos/Pods-spotifyGlos.debug.xcconfig"; sourceTree = "<group>"; };
@@ -145,8 +159,16 @@
 				B10C54961A044EB800A92E62 /* UIView+FrameGetters.h */,
 				B10C54971A044EB800A92E62 /* UIView+FrameGetters.m */,
 				B10C54941A044D9D00A92E62 /* JSLSonosViewController.m */,
-				0B3F485D1A0B2CB7008742F8 /* User.h */,
-				0B3F485E1A0B2CB7008742F8 /* User.m */,
+				0BE2E1731A0C0829003CC782 /* User.h */,
+				0BE2E1741A0C0829003CC782 /* User.m */,
+				0B3F48601A0B2F34008742F8 /* SonosController.h */,
+				0B3F48611A0B2F34008742F8 /* SonosController.m */,
+				0B3F48621A0B2F34008742F8 /* SonosDiscover.h */,
+				0B3F48631A0B2F34008742F8 /* SonosDiscover.m */,
+				0B3F48641A0B2F34008742F8 /* SonosManager.h */,
+				0B3F48651A0B2F34008742F8 /* SonosManager.m */,
+				0B3F48661A0B2F34008742F8 /* XMLReader.h */,
+				0B3F48671A0B2F34008742F8 /* XMLReader.m */,
 				B10C547A1A041F7F00A92E62 /* Images.xcassets */,
 				B10C547C1A041F7F00A92E62 /* LaunchScreen.xib */,
 				B10C546D1A041F7F00A92E62 /* Supporting Files */,
@@ -157,6 +179,7 @@
 		B10C546D1A041F7F00A92E62 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0B580ACF1A0BDC820019A6AC /* sonos_device_xml.xml */,
 				B10C546E1A041F7F00A92E62 /* Info.plist */,
 				B10C546F1A041F7F00A92E62 /* main.m */,
 			);
@@ -294,6 +317,7 @@
 				B10C54791A041F7F00A92E62 /* Main.storyboard in Resources */,
 				B10C547E1A041F7F00A92E62 /* LaunchScreen.xib in Resources */,
 				B1C53CB01A070D9B00BEC2E4 /* ele-earth-icon.png in Resources */,
+				0B580AD01A0BDC820019A6AC /* sonos_device_xml.xml in Resources */,
 				B10C547B1A041F7F00A92E62 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,9 +369,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B3F48681A0B2F34008742F8 /* SonosController.m in Sources */,
 				B10C54761A041F7F00A92E62 /* ViewController.m in Sources */,
+				0B3F486B1A0B2F34008742F8 /* XMLReader.m in Sources */,
 				B10C54951A044D9D00A92E62 /* JSLSonosViewController.m in Sources */,
-				0B3F485F1A0B2CB7008742F8 /* User.m in Sources */,
+				0B3F48691A0B2F34008742F8 /* SonosDiscover.m in Sources */,
+				0BE2E1751A0C0829003CC782 /* User.m in Sources */,
+				0B3F486A1A0B2F34008742F8 /* SonosManager.m in Sources */,
 				B10C54731A041F7F00A92E62 /* AppDelegate.m in Sources */,
 				B10C54981A044EB800A92E62 /* UIView+FrameGetters.m in Sources */,
 				B10C54701A041F7F00A92E62 /* main.m in Sources */,

@@ -6,7 +6,6 @@ source 'https://github.com/CocoaPods/Specs.git'
 target 'spotifyGlos' do
 
 	pod 'CocoaAsyncSocket', :head
-	pod 'sonos-objc'
 	pod 'AFNetworking', '~> 2.0'
 	pod 'MBProgressHUD', '~> 0.8'
 
