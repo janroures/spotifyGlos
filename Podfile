@@ -8,6 +8,7 @@ target 'spotifyGlos' do
 	pod 'CocoaAsyncSocket', :head
 	pod 'AFNetworking', '~> 2.0'
 	pod 'MBProgressHUD', '~> 0.8'
+	pod 'autoAutoLayout'
 
 end
 

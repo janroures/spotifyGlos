@@ -14,9 +14,6 @@
 @interface UsersTableViewController ()
 
 @property(strong,nonatomic)NSMutableArray *usersArray;
-@property(strong,nonatomic)User *janUser;
-@property(strong,nonatomic)User *louisUser;
-@property(strong,nonatomic)User *sumaUser;
 
 @end
 
@@ -47,18 +44,15 @@
     return [self.usersArray count];
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"basicCell" forIndexPath:indexPath];
-    
     PFObject *currentUser=self.usersArray[indexPath.row];
     cell.textLabel.text=[currentUser objectForKey:@"name"];
     return cell;
 }
 
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
+#pragma mark - Navigation
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     JSLSonosViewController *vc=[segue destinationViewController];
     NSIndexPath *selectedIndexPath=[self.tableView indexPathForSelectedRow];
@@ -75,10 +69,9 @@
         NSNumber *retrievedreceivedUpvotes=[newUser objectForKey:@"receivedUpvotes"];
         NSNumber *retrievedreceivedDownvotes=[newUser objectForKey:@"receivedDownvotes"];
         NSMutableArray *retrievedtopSongs=[NSMutableArray arrayWithArray:[newUser objectForKey:@"topSongs"]];
-        
         User *janUser=[[User alloc]initWithUserName:retrievedUserName isAdmin:retrievedIsAdmin timesAdmin:retrievedtimesAdmin receivedUpvotes:retrievedreceivedUpvotes receivedDownvotes:retrievedreceivedDownvotes topSongs:retrievedtopSongs];
         vc.user=janUser;
-
+        
     }else if ([[newUser objectForKey:@"name"]isEqual:@"Louis"]){
         NSString *retrievedUserName=[newUser objectForKey:@"name"];
         BOOL retrievedIsAdmin;
@@ -91,7 +84,6 @@
         NSNumber *retrievedreceivedUpvotes=[newUser objectForKey:@"receivedUpvotes"];
         NSNumber *retrievedreceivedDownvotes=[newUser objectForKey:@"receivedDownvotes"];
         NSMutableArray *retrievedtopSongs=[NSMutableArray arrayWithArray:[newUser objectForKey:@"topSongs"]];
-        
         User *louisUser=[[User alloc]initWithUserName:retrievedUserName isAdmin:retrievedIsAdmin timesAdmin:retrievedtimesAdmin receivedUpvotes:retrievedreceivedUpvotes receivedDownvotes:retrievedreceivedDownvotes topSongs:retrievedtopSongs];
         vc.user=louisUser;
     }else{
@@ -111,41 +103,39 @@
     }
 }
 
-
+/*
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
 
 /*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source
+ [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+ } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }
+ }
+ */
 
 /*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+ }
+ */
 
 /*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
 
 
 

@@ -11,10 +11,8 @@
 @implementation User
 
 
-
-
 -(instancetype)init{
-    return [self initWithUserName:nil isAdmin:nil timesAdmin:nil receivedUpvotes:nil receivedDownvotes:nil topSongs:nil];
+    return [self initWithUserName:nil isAdmin:NO timesAdmin:nil receivedUpvotes:nil receivedDownvotes:nil topSongs:nil];
 }
 -(instancetype)initWithUserName:(NSString *)username isAdmin:(BOOL)isadmin timesAdmin:(NSNumber *)timesadmin receivedUpvotes:(NSNumber *)receivedupvotes receivedDownvotes:(NSNumber *)receiveddownvotes topSongs:(NSMutableArray *)topsongs{
     self=[super init];
@@ -26,7 +24,6 @@
         _receivedDownvotes=receiveddownvotes;
         _topSongs=[NSMutableArray arrayWithArray:topsongs];
     }
-
     return self;
 }
 

@@ -20,16 +20,19 @@ PODS:
   - AFNetworking/UIKit (2.4.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - autoAutoLayout (0.1.0)
   - CocoaAsyncSocket (HEAD based on 7.3.5)
   - MBProgressHUD (0.9)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
+  - autoAutoLayout
   - CocoaAsyncSocket (HEAD)
   - MBProgressHUD (~> 0.8)
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
+  autoAutoLayout: 8d3d0b68b9617dc4efb0149082f30033529e0f49
   CocoaAsyncSocket: 45bdbbc1c0a5ed0640ff4c42af325ba43a2f099a
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
 

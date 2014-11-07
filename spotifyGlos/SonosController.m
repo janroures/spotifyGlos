@@ -31,7 +31,6 @@
     if (owner_.isAdmin==YES) {
         self.owner = owner_;
     }
-    
     return self;
 }
 

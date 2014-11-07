@@ -13,6 +13,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <UIKit/UIDevice.h>
+#import <AutoAutoLayout.h>
 
 @interface JSLSonosViewController ()
 
@@ -21,6 +22,18 @@
 - (IBAction)currentVolume:(id)sender;
 - (IBAction)getAlbumArt:(id)sender;
 - (IBAction)playTrack:(id)sender;
+- (IBAction)previousSong:(id)sender;
+- (IBAction)voteUp:(id)sender;
+- (IBAction)voteDown:(id)sender;
+- (IBAction)nextSong:(id)sender;
+
+
+
+@property (weak, nonatomic) IBOutlet UIButton *voteUpButton;
+@property (weak, nonatomic) IBOutlet UIButton *voteDownButton;
+@property (weak, nonatomic) IBOutlet UIButton *nextSongButton;
+@property (weak, nonatomic) IBOutlet UIButton *previousSongButton;
+
 
 @property (weak, nonatomic) IBOutlet UIImageView *albumArt;
 @property (weak, nonatomic) IBOutlet UILabel *songNameLabel;
@@ -49,30 +62,40 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.view removeConstraints:self.view.constraints];
+    
+    [AutoAutoLayout reLayoutAllSubviewsFromBase:@"4s" forSubviewsOf:self.view];
+    
     self.playButton.enabled=NO;
+    self.nextSongButton.enabled=NO;
+    self.previousSongButton.enabled=NO;
+
     
     self.songInfo = [[NSMutableDictionary alloc] init];
     self.sonosManager = [SonosManager sharedInstance];
     self.currentDevice = self.sonosManager.currentDevice;
     self.isPlaying=YES;
+    self.currentDevice = [[SonosController alloc] initWithIP:@"192.168.2.160" port:1400 owner:self.user];
+    self.voteUpButton.imageView.image=[UIImage imageNamed:@"thumbup.png"];
+    self.voteDownButton.imageView.image=[UIImage imageNamed:@"thumbdown.png"];
+    
+    NSLog(@"%@", [self.currentDevice class]);
     
     User *currentUser=[[User alloc]initWithUserName:self.user.userName isAdmin:self.user.isAdmin timesAdmin:self.user.timesAdmin receivedUpvotes:self.user.receivedUpvotes receivedDownvotes:self.user.receivedDownvotes topSongs:self.user.topSongs];
     
     if (currentUser.isAdmin==YES) {
         self.playButton.enabled=YES;
+        self.nextSongButton.enabled=YES;
+        self.previousSongButton.enabled=YES;
     }
-    
-    NSLog(@"%@", currentUser.userName);
-//    [self setUpConstraints];
+    //    [self setUpConstraints];
     
     [self.albumArt setBackgroundColor:[UIColor redColor]];
     [self.artistNameLabel setBackgroundColor:[UIColor blueColor]];
     [self.songNameLabel setBackgroundColor:[UIColor yellowColor]];
     [self.buttonContainer setBackgroundColor:[UIColor purpleColor]];
-
-
-
-
+    
     
 }
 
@@ -85,7 +108,7 @@
     NSNumber *centerY = [NSNumber numberWithDouble:CGRectGetMidY(self.view.frame)];
     NSDictionary *metrics = @{ @"frameCenterY" : centerY };
     
-    NSArray *coverArtConstraints = @[ [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_albumArt]|"
+    NSArray *coverArtConstraints = @[[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_albumArt]|"
                                                                               options:0
                                                                               metrics:nil
                                                                                 views:elementsDictionary],
@@ -209,7 +232,7 @@
     [self.view addConstraint:buttonContainerWidthConstraints];
     [self.view addConstraint:buttonContainerHeightConstraints];
     [self.buttonContainer setBackgroundColor:[UIColor purpleColor]];
-        
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -218,7 +241,6 @@
 }
 
 -(void)addConstraints:(NSArray *)constraints toView:(UIView *) view andClearConstraints:(BOOL) clear{
-    
     //--- clear constraints if you need ---//
     if (clear) {
         [view removeConstraints:view.constraints];
@@ -243,8 +265,6 @@
     
     // can use the commented out stuff above to get the info; i just pulled out the specific IP
     // for "Soundwall" because the controller randomly assigns the 2 devices it finds in an array
-    self.currentDevice = [[SonosController alloc] initWithIP:@"192.168.2.160" port:1400 owner:self.user];
-    NSLog(@"%@", [self.currentDevice class]);
 }
 
 //used to get the current song and set it to self.currentsong
@@ -271,16 +291,13 @@
     }];
 }
 
-
-
-
 - (IBAction)currentVolume:(id)sender {
     [self.currentDevice getVolume:^(NSInteger volume, NSError *error){
         if (!error) {
-            NSLog(@"The volume: %li", volume);
+            NSLog(@"The volume: %li", (long)volume);
             self.currentVolume = volume;
         }else{
-            NSLog(@"The volume: %li , error", volume);
+            NSLog(@"The volume: %li , error", (long)volume);
         }
     }];
 }
@@ -319,4 +336,26 @@
         NSLog(@"Playing");
     }
 }
+
+- (IBAction)previousSong:(id)sender {
+    [self.currentDevice previous:^(NSDictionary *dict, NSError *error) {
+        NSLog(@"Previous Song");
+    }];
+}
+
+- (IBAction)nextSong:(id)sender {
+    [self.currentDevice next:^(NSDictionary *dict, NSError *error) {
+        NSLog(@"Next Song");
+    }];}
+
+- (IBAction)voteUp:(id)sender {
+    NSLog(@"Vote up");
+}
+
+- (IBAction)voteDown:(id)sender {
+    NSLog(@"Vote down");
+}
+
+
+
 @end

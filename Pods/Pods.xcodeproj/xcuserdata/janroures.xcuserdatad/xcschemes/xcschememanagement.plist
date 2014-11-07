@@ -19,7 +19,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-spotifyGlos-autoAutoLayout.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-spotifyGlos.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>autoAutoLayout.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -27,22 +37,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>289B890E7AE535E34A65329B</key>
+		<key>43933ED641120ECDF57E632F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2EF2335CE4E03B09BC18B8A1</key>
+		<key>6652A506465079C8599E14F9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>44CAB4BFBC0ED0010AF17706</key>
+		<key>6AD180C28665DFA1378A76AB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>656B0FA8F1E976F6DBC0B070</key>
+		<key>BE64164CDE81F3BDB20B5057</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D4D13567FF91F46F174C3135</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E0B8520883A2F68631200964</key>
 		<dict>
 			<key>primary</key>
 			<true/>

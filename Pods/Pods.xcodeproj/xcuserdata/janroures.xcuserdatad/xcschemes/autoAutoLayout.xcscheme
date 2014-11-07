@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E0B8520883A2F68631200964"
-               BuildableName = "libPods-spotifyGlos-AFNetworking.a"
-               BlueprintName = "Pods-spotifyGlos-AFNetworking"
+               BlueprintIdentifier = "43933ED641120ECDF57E632F"
+               BuildableName = "autoAutoLayout.bundle"
+               BlueprintName = "autoAutoLayout"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
