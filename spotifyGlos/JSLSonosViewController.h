@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "User.h"
 
 @interface JSLSonosViewController : UIViewController
+
+@property(strong,nonatomic)User *user;
 
 @end

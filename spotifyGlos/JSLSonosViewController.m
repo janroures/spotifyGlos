@@ -12,8 +12,7 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/AFNetworking.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
-#import "User.h"
-
+#import <UIKit/UIDevice.h>
 
 @interface JSLSonosViewController ()
 
@@ -39,16 +38,6 @@
 
 //User stuff
 
-@property(strong,nonatomic)NSMutableArray *usersArray;
-@property(strong,nonatomic)User *user;
-
-//@property(strong,nonatomic)NSString *retrievedUserName;
-//@property(nonatomic)BOOL retrievedIsAdmin;
-//@property(strong,nonatomic)NSNumber *retrievedtimesAdmin;
-//@property(strong,nonatomic)NSNumber *retrievedreceivedUpvotes;
-//@property(strong,nonatomic)NSNumber *retrievedreceivedDownvotes;
-//@property(strong,nonatomic)NSMutableArray *retrievedtopSongs;
-
 //User stuff ends
 
 @property (strong, nonatomic) NSArray *devices;
@@ -67,45 +56,23 @@
     self.currentDevice = self.sonosManager.currentDevice;
     self.isPlaying=YES;
     
-    PFQuery *query = [PFQuery queryWithClassName:@"Users"];
+    User *currentUser=[[User alloc]initWithUserName:self.user.userName isAdmin:self.user.isAdmin timesAdmin:self.user.timesAdmin receivedUpvotes:self.user.receivedUpvotes receivedDownvotes:self.user.receivedDownvotes topSongs:self.user.topSongs];
     
-    NSMutableArray *usersArray=[NSMutableArray arrayWithArray:[query findObjects]]
-    ;
-    for (PFObject *newUser in usersArray) {
-        if ([[newUser objectForKey:@"isAdmin"]isEqual:@1]) {
-            self.playButton.enabled=YES;
-            NSString *retrievedUserName=[newUser objectForKey:@"name"];
-            BOOL retrievedIsAdmin=YES;
-            NSNumber *retrievedtimesAdmin=[newUser objectForKey:@"timesAdmin"];
-            NSNumber *retrievedreceivedUpvotes=[newUser objectForKey:@"receivedUpvotes"];
-            NSNumber *retrievedreceivedDownvotes=[newUser objectForKey:@"receivedDownvotes"];
-            NSMutableArray *retrievedtopSongs=[NSMutableArray arrayWithArray:[newUser objectForKey:@"topSongs"]];
-            
-            self.user=[[User alloc]initWithUserName:retrievedUserName isAdmin:retrievedIsAdmin timesAdmin:retrievedtimesAdmin receivedUpvotes:retrievedreceivedUpvotes receivedDownvotes:retrievedreceivedDownvotes topSongs:retrievedtopSongs];
-        }
+    if (currentUser.isAdmin==YES) {
+        self.playButton.enabled=YES;
     }
     
-//    [query getObjectInBackgroundWithId:@"xOQ1BJGl3X" block:^(PFObject *user, NSError *error) {
-//        // Do something with the returned PFObject in the gameScore variable.
-//        PFObject *newUser=user;
-//        NSString *retrievedUserName=[newUser objectForKey:@"name"];
-//        BOOL retrievedIsAdmin;
-//        if ([[newUser objectForKey:@"isAdmin"] isEqual:@0]) {
-//            retrievedIsAdmin=NO;
-//        }else{
-//            retrievedIsAdmin=YES;
-//        }
-//        NSNumber *retrievedtimesAdmin=[newUser objectForKey:@"timesAdmin"];
-//        NSNumber *retrievedreceivedUpvotes=[newUser objectForKey:@"receivedUpvotes"];
-//        NSNumber *retrievedreceivedDownvotes=[newUser objectForKey:@"receivedDownvotes"];
-//        NSMutableArray *retrievedtopSongs=[NSMutableArray arrayWithArray:[newUser objectForKey:@"topSongs"]];
-//        
-//        self.user=[[User alloc]initWithUserName:retrievedUserName isAdmin:retrievedIsAdmin timesAdmin:retrievedtimesAdmin receivedUpvotes:retrievedreceivedUpvotes receivedDownvotes:retrievedreceivedDownvotes topSongs:retrievedtopSongs];
-//        
-//        
-//    }];
+    NSLog(@"%@", currentUser.userName);
+//    [self setUpConstraints];
     
-    [self setUpConstraints];
+    [self.albumArt setBackgroundColor:[UIColor redColor]];
+    [self.artistNameLabel setBackgroundColor:[UIColor blueColor]];
+    [self.songNameLabel setBackgroundColor:[UIColor yellowColor]];
+    [self.buttonContainer setBackgroundColor:[UIColor purpleColor]];
+
+
+
+
     
 }
 
@@ -322,7 +289,6 @@
     //simple method from the AFNetworking UIImageView category
     NSLog(@"%@" ,self.currentSong[@"MetaDataAlbumArtURI"]);
     [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]] placeholderImage:[UIImage imageNamed:@"ele-earth-icon"]];
-    
 }
 
 - (IBAction)playTrack:(id)sender {
@@ -338,7 +304,6 @@
     //        TrackURI = "x-sonos-http:track%3a173058369.mp3?sid=160&flags=32";
     //    }
     NSError *err = nil;
-    
     NSString *songTitle = self.currentSong[@"MetaDataTitle"];
     NSURL *songURL = [NSURL URLWithString:self.currentSong[@"TrackURI"]];
     NSString *songStringFromURL=[NSString stringWithContentsOfURL:songURL encoding:NSUTF8StringEncoding error:&err];

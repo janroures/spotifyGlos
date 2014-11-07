@@ -25,10 +25,11 @@
 		0B3F486B1A0B2F34008742F8 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F48671A0B2F34008742F8 /* XMLReader.m */; };
 		0B580AD01A0BDC820019A6AC /* sonos_device_xml.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0B580ACF1A0BDC820019A6AC /* sonos_device_xml.xml */; };
 		0BE2E1751A0C0829003CC782 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE2E1741A0C0829003CC782 /* User.m */; };
+		0BE2E1781A0C5238003CC782 /* UsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE2E1771A0C5238003CC782 /* UsersTableViewController.m */; };
+		0BE2E17B1A0C54BB003CC782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BE2E1791A0C54BB003CC782 /* Main.storyboard */; };
 		B10C54701A041F7F00A92E62 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B10C546F1A041F7F00A92E62 /* main.m */; };
 		B10C54731A041F7F00A92E62 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B10C54721A041F7F00A92E62 /* AppDelegate.m */; };
 		B10C54761A041F7F00A92E62 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B10C54751A041F7F00A92E62 /* ViewController.m */; };
-		B10C54791A041F7F00A92E62 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B10C54771A041F7F00A92E62 /* Main.storyboard */; };
 		B10C547B1A041F7F00A92E62 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10C547A1A041F7F00A92E62 /* Images.xcassets */; };
 		B10C547E1A041F7F00A92E62 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B10C547C1A041F7F00A92E62 /* LaunchScreen.xib */; };
 		B10C548A1A041F7F00A92E62 /* spotifyGlosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B10C54891A041F7F00A92E62 /* spotifyGlosTests.m */; };
@@ -72,6 +73,9 @@
 		0B580ACF1A0BDC820019A6AC /* sonos_device_xml.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sonos_device_xml.xml; sourceTree = "<group>"; };
 		0BE2E1731A0C0829003CC782 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		0BE2E1741A0C0829003CC782 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		0BE2E1761A0C5238003CC782 /* UsersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersTableViewController.h; sourceTree = "<group>"; };
+		0BE2E1771A0C5238003CC782 /* UsersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsersTableViewController.m; sourceTree = "<group>"; };
+		0BE2E17A1A0C54BB003CC782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1E5F2E688A1B134E904E5383 /* libPods-spotifyGlos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-spotifyGlos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		77C6430A8419424EDA0BDDDB /* Pods-spotifyGlos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-spotifyGlos.release.xcconfig"; path = "Pods/Target Support Files/Pods-spotifyGlos/Pods-spotifyGlos.release.xcconfig"; sourceTree = "<group>"; };
 		A6A06287EA64436335012A93 /* Pods-spotifyGlos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-spotifyGlos.debug.xcconfig"; path = "Pods/Target Support Files/Pods-spotifyGlos/Pods-spotifyGlos.debug.xcconfig"; sourceTree = "<group>"; };
@@ -82,7 +86,6 @@
 		B10C54721A041F7F00A92E62 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		B10C54741A041F7F00A92E62 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		B10C54751A041F7F00A92E62 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		B10C54781A041F7F00A92E62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B10C547A1A041F7F00A92E62 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B10C547D1A041F7F00A92E62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		B10C54831A041F7F00A92E62 /* spotifyGlosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = spotifyGlosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,11 +157,13 @@
 				B10C54721A041F7F00A92E62 /* AppDelegate.m */,
 				B10C54741A041F7F00A92E62 /* ViewController.h */,
 				B10C54751A041F7F00A92E62 /* ViewController.m */,
-				B10C54771A041F7F00A92E62 /* Main.storyboard */,
-				B10C54931A044D9D00A92E62 /* JSLSonosViewController.h */,
 				B10C54961A044EB800A92E62 /* UIView+FrameGetters.h */,
 				B10C54971A044EB800A92E62 /* UIView+FrameGetters.m */,
+				B10C54931A044D9D00A92E62 /* JSLSonosViewController.h */,
 				B10C54941A044D9D00A92E62 /* JSLSonosViewController.m */,
+				0BE2E1761A0C5238003CC782 /* UsersTableViewController.h */,
+				0BE2E1771A0C5238003CC782 /* UsersTableViewController.m */,
+				0BE2E1791A0C54BB003CC782 /* Main.storyboard */,
 				0BE2E1731A0C0829003CC782 /* User.h */,
 				0BE2E1741A0C0829003CC782 /* User.m */,
 				0B3F48601A0B2F34008742F8 /* SonosController.h */,
@@ -283,6 +288,7 @@
 				TargetAttributes = {
 					B10C54691A041F7F00A92E62 = {
 						CreatedOnToolsVersion = 6.0.1;
+						DevelopmentTeam = 2XFC85G99P;
 					};
 					B10C54821A041F7F00A92E62 = {
 						CreatedOnToolsVersion = 6.0.1;
@@ -314,8 +320,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B10C54791A041F7F00A92E62 /* Main.storyboard in Resources */,
 				B10C547E1A041F7F00A92E62 /* LaunchScreen.xib in Resources */,
+				0BE2E17B1A0C54BB003CC782 /* Main.storyboard in Resources */,
 				B1C53CB01A070D9B00BEC2E4 /* ele-earth-icon.png in Resources */,
 				0B580AD01A0BDC820019A6AC /* sonos_device_xml.xml in Resources */,
 				B10C547B1A041F7F00A92E62 /* Images.xcassets in Resources */,
@@ -377,6 +383,7 @@
 				0BE2E1751A0C0829003CC782 /* User.m in Sources */,
 				0B3F486A1A0B2F34008742F8 /* SonosManager.m in Sources */,
 				B10C54731A041F7F00A92E62 /* AppDelegate.m in Sources */,
+				0BE2E1781A0C5238003CC782 /* UsersTableViewController.m in Sources */,
 				B10C54981A044EB800A92E62 /* UIView+FrameGetters.m in Sources */,
 				B10C54701A041F7F00A92E62 /* main.m in Sources */,
 			);
@@ -401,10 +408,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		B10C54771A041F7F00A92E62 /* Main.storyboard */ = {
+		0BE2E1791A0C54BB003CC782 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				B10C54781A041F7F00A92E62 /* Base */,
+				0BE2E17A1A0C54BB003CC782 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -501,6 +508,8 @@
 			baseConfigurationReference = A6A06287EA64436335012A93 /* Pods-spotifyGlos.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -508,6 +517,7 @@
 				INFOPLIST_FILE = spotifyGlos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -516,6 +526,8 @@
 			baseConfigurationReference = 77C6430A8419424EDA0BDDDB /* Pods-spotifyGlos.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -523,6 +535,7 @@
 				INFOPLIST_FILE = spotifyGlos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
