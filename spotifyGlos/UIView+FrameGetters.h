@@ -10,9 +10,6 @@
 
 @interface UIView (FrameGetters)
 
-//@property (nonatomic) CGRect myFrame;
-
-
 -(CGRect) myFrame;
 -(CGPoint) myOrigins;
 -(CGSize) myDimensions;

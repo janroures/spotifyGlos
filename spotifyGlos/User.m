@@ -14,6 +14,7 @@
 -(instancetype)init{
     return [self initWithUserName:nil isAdmin:NO timesAdmin:nil receivedUpvotes:nil receivedDownvotes:nil topSongs:nil];
 }
+
 -(instancetype)initWithUserName:(NSString *)username isAdmin:(BOOL)isadmin timesAdmin:(NSNumber *)timesadmin receivedUpvotes:(NSNumber *)receivedupvotes receivedDownvotes:(NSNumber *)receiveddownvotes topSongs:(NSMutableArray *)topsongs{
     self=[super init];
     if (self) {

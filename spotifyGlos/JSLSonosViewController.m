@@ -14,6 +14,7 @@
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <UIKit/UIDevice.h>
 #import <AutoAutoLayout.h>
+#import "SonosController.h"
 
 @interface JSLSonosViewController ()
 
@@ -49,9 +50,22 @@
 
 @property(nonatomic)BOOL isPlaying;
 
-//User stuff
+@property(strong,nonatomic)AFNetworkReachabilityManager *reachabilityManager;
+@property(strong,nonatomic)AFHTTPSessionManager *sessionManager;
 
-//User stuff ends
+
+@property(nonatomic)NSInteger randomUserFromUsersArray;
+
+
+
+
+/* 
+User stuff
+
+user stuff declared in .h because we need to access it from the TableVC
+
+User stuff ends
+*/
 
 @property (strong, nonatomic) NSArray *devices;
 @property (strong, nonatomic) __block NSMutableDictionary *songInfo;
@@ -67,36 +81,55 @@
     
     [AutoAutoLayout reLayoutAllSubviewsFromBase:@"4s" forSubviewsOf:self.view];
     
+    self.sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"www.google.com"] sessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    self.reachabilityManager=[AFNetworkReachabilityManager sharedManager];
+    [self.reachabilityManager startMonitoring];
+    
     self.playButton.enabled=NO;
     self.nextSongButton.enabled=NO;
     self.previousSongButton.enabled=NO;
-
     
     self.songInfo = [[NSMutableDictionary alloc] init];
     self.sonosManager = [SonosManager sharedInstance];
-    self.currentDevice = self.sonosManager.currentDevice;
+//    self.currentDevice = self.sonosManager.currentDevice;
     self.isPlaying=YES;
     self.currentDevice = [[SonosController alloc] initWithIP:@"192.168.2.160" port:1400 owner:self.user];
-    self.voteUpButton.imageView.image=[UIImage imageNamed:@"thumbup.png"];
-    self.voteDownButton.imageView.image=[UIImage imageNamed:@"thumbdown.png"];
+    __block NSDictionary *blockDictionary = [[NSDictionary alloc] init];
     
+    [self.currentDevice trackInfo:^(NSDictionary * returnData, NSError *error){
+        if (!error) {
+            blockDictionary = [NSDictionary dictionaryWithDictionary:returnData];
+            self.currentSong = [NSMutableDictionary dictionaryWithDictionary:blockDictionary];
+            self.songNameLabel.text = self.currentSong[@"MetaDataTitle"];
+            self.artistNameLabel.text = self.currentSong[@"MetaDataCreator"];
+            [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]] placeholderImage:[UIImage imageNamed:@"ele-earth-icon"]];
+        }else{
+            NSLog(@"There was an error getting the current track\n\nThe errors: %@", error.localizedDescription);
+        }
+    }];
     NSLog(@"%@", [self.currentDevice class]);
     
     User *currentUser=[[User alloc]initWithUserName:self.user.userName isAdmin:self.user.isAdmin timesAdmin:self.user.timesAdmin receivedUpvotes:self.user.receivedUpvotes receivedDownvotes:self.user.receivedDownvotes topSongs:self.user.topSongs];
-    
     if (currentUser.isAdmin==YES) {
         self.playButton.enabled=YES;
         self.nextSongButton.enabled=YES;
         self.previousSongButton.enabled=YES;
     }
-    //    [self setUpConstraints];
-    
+//    [self setUpConstraints];
     [self.albumArt setBackgroundColor:[UIColor redColor]];
     [self.artistNameLabel setBackgroundColor:[UIColor blueColor]];
     [self.songNameLabel setBackgroundColor:[UIColor yellowColor]];
     [self.buttonContainer setBackgroundColor:[UIColor purpleColor]];
-    
-    
+    self.voteUpButton.imageView.image=[UIImage imageNamed:@"thumbup.png"];
+    self.voteDownButton.imageView.image=[UIImage imageNamed:@"thumbdown.png"];
+
+    [self.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        if (![AFNetworkReachabilityManager sharedManager].networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi ) {
+            NSLog(@"%ld", status);
+        }else{
+            NSLog(@"You're on wifi");
+        }
+    }];
 }
 
 -(void) setUpConstraints{
@@ -109,18 +142,18 @@
     NSDictionary *metrics = @{ @"frameCenterY" : centerY };
     
     NSArray *coverArtConstraints = @[[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_albumArt]|"
-                                                                              options:0
-                                                                              metrics:nil
-                                                                                views:elementsDictionary],
-                                      [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_albumArt]"
-                                                                              options:0 metrics:nil
-                                                                                views:elementsDictionary],
-                                      
-                                      [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_albumArt(==frameCenterY)]"
-                                                                              options:0
-                                                                              metrics:metrics
-                                                                                views:elementsDictionary]
-                                      ];
+                                                                             options:0
+                                                                             metrics:nil
+                                                                               views:elementsDictionary],
+                                     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_albumArt]"
+                                                                             options:0 metrics:nil
+                                                                               views:elementsDictionary],
+                                     
+                                     [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_albumArt(==frameCenterY)]"
+                                                                             options:0
+                                                                             metrics:metrics
+                                                                               views:elementsDictionary]
+                                     ];
     
     
     
@@ -237,7 +270,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
 }
 
 -(void)addConstraints:(NSArray *)constraints toView:(UIView *) view andClearConstraints:(BOOL) clear{
@@ -283,10 +315,10 @@
         if (!error) {
             blockDictionary = [NSDictionary dictionaryWithDictionary:returnData];
             self.currentSong = [NSMutableDictionary dictionaryWithDictionary:blockDictionary];
-            self.songNameLabel.text = self.currentSong[@"MetaDataAlbum"];
+            self.songNameLabel.text = self.currentSong[@"MetaDataTitle"];
             self.artistNameLabel.text = self.currentSong[@"MetaDataCreator"];
         }else{
-            NSLog(@"There was an error getting the current track\n\nThe errors: %@", error);
+            NSLog(@"There was an error getting the current track\n\nThe errors: %@", error.localizedDescription);
         }
     }];
 }
@@ -309,53 +341,93 @@
 }
 
 - (IBAction)playTrack:(id)sender {
-    //not entirely sure how/if this works.
-    //    {
-    //        MetaDataAlbum = "";
-    //        MetaDataAlbumArtURI = "/getaa?s=1&u=x-sonos-http%3atrack%253a173058369.mp3%3fsid%3d160%26flags%3d32";
-    //        MetaDataCreator = "MUTO.";
-    //        MetaDataTitle = "Justin Timberlake - What Goes Around...Comes Around (MUTO Remix)";
-    //        RelTime = "0:00:56";
-    //        Track = 5;
-    //        TrackDuration = "0:03:44";
-    //        TrackURI = "x-sonos-http:track%3a173058369.mp3?sid=160&flags=32";
-    //    }
     NSError *err = nil;
     NSString *songTitle = self.currentSong[@"MetaDataTitle"];
     NSURL *songURL = [NSURL URLWithString:self.currentSong[@"TrackURI"]];
     NSString *songStringFromURL=[NSString stringWithContentsOfURL:songURL encoding:NSUTF8StringEncoding error:&err];
     NSLog(@"the song: %@ and URI: %@ and SongString: %@", songTitle, songURL ,songStringFromURL);
     if (self.isPlaying==YES) {
-        self.isPlaying=NO;
         [self.currentDevice pause:^(NSDictionary *dictionary, NSError *err) {
+            self.isPlaying=NO;
             NSLog(@"Paused");
         }];
     }else{
-        self.isPlaying=YES;
         [self.currentDevice play:self.currentSong[@"TrackURI"] completion:nil];
+        self.isPlaying=YES;
         NSLog(@"Playing");
     }
 }
 
 - (IBAction)previousSong:(id)sender {
     [self.currentDevice previous:^(NSDictionary *dict, NSError *error) {
+        for (PFObject *newUser in self.usersArray) {
+            if (![[newUser objectForKey:@"isAdmin"]isEqual:@0]) {
+                NSInteger upvotes=[[newUser objectForKey:@"receivedUpvotes"] integerValue];
+                NSInteger downvotes=[[newUser objectForKey:@"receivedDownvotes"] integerValue];
+                [newUser incrementKey:@"receivedUpvotes" byAmount:@(-upvotes)];
+                [newUser incrementKey:@"receivedDownvotes" byAmount:@(-downvotes)];
+                if (upvotes<downvotes){
+                    int randomUserFromUsersWhoAreNotAdminsArray=arc4random_uniform([self.usersArray count]-2);
+                    NSPredicate *predicate=[NSPredicate predicateWithFormat:@"isAdmin=%@", [NSNumber numberWithBool:NO]];
+                    PFQuery *query=[PFQuery queryWithClassName:@"Users" predicate:predicate];
+                    NSMutableArray *arrayOfUsersWhoAreNotAdmins=[NSMutableArray arrayWithArray:[query findObjects]];
+                    PFObject *newUserAdmin=arrayOfUsersWhoAreNotAdmins[randomUserFromUsersWhoAreNotAdminsArray];
+                    [newUserAdmin setObject:[NSNumber numberWithBool:YES] forKey:@"isAdmin"];
+                    [newUser setObject:[NSNumber numberWithBool:NO] forKey:@"isAdmin"];
+                    [newUserAdmin saveInBackground];
+                }
+                [newUser saveInBackground];
+            }
+        }
         NSLog(@"Previous Song");
     }];
 }
 
 - (IBAction)nextSong:(id)sender {
     [self.currentDevice next:^(NSDictionary *dict, NSError *error) {
+        for (PFObject *newUser in self.usersArray) {
+            if (![[newUser objectForKey:@"isAdmin"]isEqual:@0]) {
+                NSInteger upvotes=[[newUser objectForKey:@"receivedUpvotes"] integerValue];
+                NSInteger downvotes=[[newUser objectForKey:@"receivedDownvotes"] integerValue];
+                [newUser incrementKey:@"receivedUpvotes" byAmount:@(-upvotes)];
+                [newUser incrementKey:@"receivedDownvotes" byAmount:@(-downvotes)];
+                if (upvotes<downvotes){
+                    int randomUserFromUsersWhoAreNotAdminsArray=arc4random_uniform([self.usersArray count]-2);
+                    NSPredicate *predicate=[NSPredicate predicateWithFormat:@"isAdmin=%@", [NSNumber numberWithBool:NO]];
+                    PFQuery *query=[PFQuery queryWithClassName:@"Users" predicate:predicate];
+                    NSMutableArray *arrayOfUsersWhoAreNotAdmins=[NSMutableArray arrayWithArray:[query findObjects]];
+                    PFObject *newUserAdmin=arrayOfUsersWhoAreNotAdmins[randomUserFromUsersWhoAreNotAdminsArray];
+                    [newUserAdmin setObject:[NSNumber numberWithBool:YES] forKey:@"isAdmin"];
+                    [newUser setObject:[NSNumber numberWithBool:NO] forKey:@"isAdmin"];
+                    [newUserAdmin saveInBackground];
+                }
+                [newUser saveInBackground];
+            }
+        }
         NSLog(@"Next Song");
-    }];}
+    }];
+}
 
 - (IBAction)voteUp:(id)sender {
-    NSLog(@"Vote up");
+    if (self.user.isAdmin==NO) {
+        for (PFObject *newUser in self.usersArray) {
+            if (![[newUser objectForKey:@"isAdmin"]isEqual:@0]) {
+                [newUser incrementKey:@"receivedUpvotes"];
+                [newUser saveInBackground];
+            }
+        }
+    }
 }
 
 - (IBAction)voteDown:(id)sender {
-    NSLog(@"Vote down");
+    if (self.user.isAdmin==NO) {
+        for (PFObject *newUser in self.usersArray) {
+            if (![[newUser objectForKey:@"isAdmin"]isEqual:@0]) {
+                [newUser incrementKey:@"receivedDownvotes"];
+                [newUser saveInBackground];
+            }
+        }
+    }
 }
-
-
 
 @end

@@ -31,7 +31,6 @@
 		0BE2E17B1A0C54BB003CC782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BE2E1791A0C54BB003CC782 /* Main.storyboard */; };
 		B10C54701A041F7F00A92E62 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B10C546F1A041F7F00A92E62 /* main.m */; };
 		B10C54731A041F7F00A92E62 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B10C54721A041F7F00A92E62 /* AppDelegate.m */; };
-		B10C54761A041F7F00A92E62 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B10C54751A041F7F00A92E62 /* ViewController.m */; };
 		B10C547B1A041F7F00A92E62 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10C547A1A041F7F00A92E62 /* Images.xcassets */; };
 		B10C547E1A041F7F00A92E62 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B10C547C1A041F7F00A92E62 /* LaunchScreen.xib */; };
 		B10C548A1A041F7F00A92E62 /* spotifyGlosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B10C54891A041F7F00A92E62 /* spotifyGlosTests.m */; };
@@ -88,8 +87,6 @@
 		B10C546F1A041F7F00A92E62 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B10C54711A041F7F00A92E62 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B10C54721A041F7F00A92E62 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		B10C54741A041F7F00A92E62 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		B10C54751A041F7F00A92E62 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		B10C547A1A041F7F00A92E62 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B10C547D1A041F7F00A92E62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		B10C54831A041F7F00A92E62 /* spotifyGlosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = spotifyGlosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,6 +140,32 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		0BED34691A0D311600A36313 /* Sonos pod */ = {
+			isa = PBXGroup;
+			children = (
+				0B3F48601A0B2F34008742F8 /* SonosController.h */,
+				0B3F48611A0B2F34008742F8 /* SonosController.m */,
+				0B3F48621A0B2F34008742F8 /* SonosDiscover.h */,
+				0B3F48631A0B2F34008742F8 /* SonosDiscover.m */,
+				0B3F48641A0B2F34008742F8 /* SonosManager.h */,
+				0B3F48651A0B2F34008742F8 /* SonosManager.m */,
+				0B3F48661A0B2F34008742F8 /* XMLReader.h */,
+				0B3F48671A0B2F34008742F8 /* XMLReader.m */,
+			);
+			name = "Sonos pod";
+			sourceTree = "<group>";
+		};
+		0BED346A1A0D313D00A36313 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B10C54931A044D9D00A92E62 /* JSLSonosViewController.h */,
+				B10C54941A044D9D00A92E62 /* JSLSonosViewController.m */,
+				0BE2E1761A0C5238003CC782 /* UsersTableViewController.h */,
+				0BE2E1771A0C5238003CC782 /* UsersTableViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
 		B10C54611A041F7F00A92E62 = {
 			isa = PBXGroup;
 			children = (
@@ -166,30 +189,18 @@
 		B10C546C1A041F7F00A92E62 /* spotifyGlos */ = {
 			isa = PBXGroup;
 			children = (
-				0B1F4EF21A0D1BAA0009027B /* Images */,
-				B10C54711A041F7F00A92E62 /* AppDelegate.h */,
+				0BED34691A0D311600A36313 /* Sonos pod */,
+				0BED346A1A0D313D00A36313 /* View Controllers */,
 				B10C54721A041F7F00A92E62 /* AppDelegate.m */,
-				B10C54741A041F7F00A92E62 /* ViewController.h */,
-				B10C54751A041F7F00A92E62 /* ViewController.m */,
+				B10C54711A041F7F00A92E62 /* AppDelegate.h */,
 				B10C54961A044EB800A92E62 /* UIView+FrameGetters.h */,
 				B10C54971A044EB800A92E62 /* UIView+FrameGetters.m */,
-				B10C54931A044D9D00A92E62 /* JSLSonosViewController.h */,
-				B10C54941A044D9D00A92E62 /* JSLSonosViewController.m */,
-				0BE2E1761A0C5238003CC782 /* UsersTableViewController.h */,
-				0BE2E1771A0C5238003CC782 /* UsersTableViewController.m */,
 				0BE2E1791A0C54BB003CC782 /* Main.storyboard */,
 				0BE2E1731A0C0829003CC782 /* User.h */,
 				0BE2E1741A0C0829003CC782 /* User.m */,
-				0B3F48601A0B2F34008742F8 /* SonosController.h */,
-				0B3F48611A0B2F34008742F8 /* SonosController.m */,
-				0B3F48621A0B2F34008742F8 /* SonosDiscover.h */,
-				0B3F48631A0B2F34008742F8 /* SonosDiscover.m */,
-				0B3F48641A0B2F34008742F8 /* SonosManager.h */,
-				0B3F48651A0B2F34008742F8 /* SonosManager.m */,
-				0B3F48661A0B2F34008742F8 /* XMLReader.h */,
-				0B3F48671A0B2F34008742F8 /* XMLReader.m */,
 				B10C547A1A041F7F00A92E62 /* Images.xcassets */,
 				B10C547C1A041F7F00A92E62 /* LaunchScreen.xib */,
+				0B1F4EF21A0D1BAA0009027B /* Images */,
 				B10C546D1A041F7F00A92E62 /* Supporting Files */,
 			);
 			path = spotifyGlos;
@@ -392,7 +403,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0B3F48681A0B2F34008742F8 /* SonosController.m in Sources */,
-				B10C54761A041F7F00A92E62 /* ViewController.m in Sources */,
 				0B3F486B1A0B2F34008742F8 /* XMLReader.m in Sources */,
 				B10C54951A044D9D00A92E62 /* JSLSonosViewController.m in Sources */,
 				0B3F48691A0B2F34008742F8 /* SonosDiscover.m in Sources */,

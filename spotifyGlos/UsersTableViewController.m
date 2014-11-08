@@ -101,6 +101,7 @@
         User *sumaUser=[[User alloc]initWithUserName:retrievedUserName isAdmin:retrievedIsAdmin timesAdmin:retrievedtimesAdmin receivedUpvotes:retrievedreceivedUpvotes receivedDownvotes:retrievedreceivedDownvotes topSongs:retrievedtopSongs];
         vc.user=sumaUser;
     }
+    vc.usersArray=self.usersArray;
 }
 
 /*

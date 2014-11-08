@@ -199,7 +199,6 @@
          // Find metadata about streaming content
          if(responseXML[@"s:Envelope"][@"s:Body"][@"u:GetPositionInfoResponse"][@"TrackMetaData"][@"text"] != nil) {
              NSDictionary *trackMetaData = [XMLReader dictionaryForXMLString:responseXML[@"s:Envelope"][@"s:Body"][@"u:GetPositionInfoResponse"][@"TrackMetaData"][@"text"] error:nil];
-             NSLog(@"%@", trackMetaData);
              
              // Figure out what kind of data is playing
              
@@ -314,9 +313,7 @@
                      [queue_items addObject:item];
                  }
              }
-             
              [returnData setObject:queue_items forKey:@"QueueItems"];
-             
              block(returnData, nil);
          }
      }];

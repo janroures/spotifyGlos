@@ -13,5 +13,6 @@
 @interface JSLSonosViewController : UIViewController
 
 @property(strong,nonatomic)User *user;
+@property(strong,nonatomic)NSMutableArray *usersArray;
 
 @end
