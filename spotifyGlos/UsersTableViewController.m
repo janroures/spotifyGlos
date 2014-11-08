@@ -10,6 +10,7 @@
 #import "User.h"
 #import "SonosController.h"
 #import "JSLSonosViewController.h"
+#import <RNBlurModalView.h>
 
 @interface UsersTableViewController ()
 
@@ -23,6 +24,13 @@
     [super viewDidLoad];
     PFQuery *query = [PFQuery queryWithClassName:@"Users"];
     self.usersArray=[NSMutableArray arrayWithArray:[query findObjects]];
+    for (PFObject *object in self.usersArray) {
+        if ([[object objectForKey:@"isAdmin"]isEqual:@1]) {
+            NSString *currentAdminName=[NSString stringWithFormat:@"The current admin is %@", [object objectForKey:@"name"]];
+            RNBlurModalView *alertView=[[RNBlurModalView alloc]initWithTitle:@"Current admin" message:currentAdminName];
+            [alertView show];
+        }
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated{
