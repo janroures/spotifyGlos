@@ -14,5 +14,6 @@
 
 @property(strong,nonatomic)User *user;
 @property(strong,nonatomic)NSMutableArray *usersArray;
+@property(strong,nonatomic)NSMutableArray *usersWhoAreNotAdminsArray;
 
 @end

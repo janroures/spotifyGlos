@@ -9,7 +9,7 @@ target 'spotifyGlos' do
 	pod 'AFNetworking', '~> 2.0'
 	pod 'MBProgressHUD', '~> 0.8'
 	pod 'autoAutoLayout'
-
+	pod 'RNBlurModalView', '~> 0.1.0'
 end
 
 target 'spotifyGlosTests' do

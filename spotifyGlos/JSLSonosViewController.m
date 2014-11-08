@@ -15,6 +15,8 @@
 #import <UIKit/UIDevice.h>
 #import <AutoAutoLayout.h>
 #import "SonosController.h"
+#import <RNBlurModalView.h>
+
 
 @interface JSLSonosViewController ()
 
@@ -27,7 +29,6 @@
 - (IBAction)voteUp:(id)sender;
 - (IBAction)voteDown:(id)sender;
 - (IBAction)nextSong:(id)sender;
-
 
 
 @property (weak, nonatomic) IBOutlet UIButton *voteUpButton;
@@ -54,11 +55,6 @@
 @property(strong,nonatomic)AFHTTPSessionManager *sessionManager;
 
 
-@property(nonatomic)NSInteger randomUserFromUsersArray;
-
-
-
-
 /* 
 User stuff
 
@@ -76,10 +72,12 @@ User stuff ends
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self.view removeConstraints:self.view.constraints];
-    
     [AutoAutoLayout reLayoutAllSubviewsFromBase:@"4s" forSubviewsOf:self.view];
+    
+    NSPredicate *predicate=[NSPredicate predicateWithFormat:@"isAdmin=%@", [NSNumber numberWithBool:NO]];
+    PFQuery *query=[PFQuery queryWithClassName:@"Users" predicate:predicate];
+    self.usersWhoAreNotAdminsArray=[NSMutableArray arrayWithArray:[query findObjects]];
     
     self.sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"www.google.com"] sessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     self.reachabilityManager=[AFNetworkReachabilityManager sharedManager];
@@ -91,7 +89,6 @@ User stuff ends
     
     self.songInfo = [[NSMutableDictionary alloc] init];
     self.sonosManager = [SonosManager sharedInstance];
-//    self.currentDevice = self.sonosManager.currentDevice;
     self.isPlaying=YES;
     self.currentDevice = [[SonosController alloc] initWithIP:@"192.168.2.160" port:1400 owner:self.user];
     __block NSDictionary *blockDictionary = [[NSDictionary alloc] init];
@@ -108,14 +105,12 @@ User stuff ends
         }
     }];
     NSLog(@"%@", [self.currentDevice class]);
-    
-    User *currentUser=[[User alloc]initWithUserName:self.user.userName isAdmin:self.user.isAdmin timesAdmin:self.user.timesAdmin receivedUpvotes:self.user.receivedUpvotes receivedDownvotes:self.user.receivedDownvotes topSongs:self.user.topSongs];
-    if (currentUser.isAdmin==YES) {
+
+    if (self.user.isAdmin==YES) {
         self.playButton.enabled=YES;
         self.nextSongButton.enabled=YES;
         self.previousSongButton.enabled=YES;
     }
-//    [self setUpConstraints];
     [self.albumArt setBackgroundColor:[UIColor redColor]];
     [self.artistNameLabel setBackgroundColor:[UIColor blueColor]];
     [self.songNameLabel setBackgroundColor:[UIColor yellowColor]];
@@ -301,12 +296,12 @@ User stuff ends
 
 //used to get the current song and set it to self.currentsong
 - (IBAction)showCurrentDeviceInfo:(id)sender {
-    /**********************************************************************************
-     *
-     *  Had to add a new conditional in SonosController.m to account for Pandora radio
-     *  which is what I had been using to test. The conditional adds dictionary data
-     *  so that I can pull album art.
-     *
+    /***********************************************************************************
+     *                                                                                 *
+     *  Had to add a new conditional in SonosController.m to account for Pandora radio *
+     *  which is what I had been using to test. The conditional adds dictionary data   *
+     *  so that I can pull album art.                                                  *
+     *                                                                                 *
      ***********************************************************************************/
     
     __block NSDictionary *blockDictionary = [[NSDictionary alloc] init];
@@ -367,14 +362,14 @@ User stuff ends
                 [newUser incrementKey:@"receivedUpvotes" byAmount:@(-upvotes)];
                 [newUser incrementKey:@"receivedDownvotes" byAmount:@(-downvotes)];
                 if (upvotes<downvotes){
-                    int randomUserFromUsersWhoAreNotAdminsArray=arc4random_uniform([self.usersArray count]-2);
-                    NSPredicate *predicate=[NSPredicate predicateWithFormat:@"isAdmin=%@", [NSNumber numberWithBool:NO]];
-                    PFQuery *query=[PFQuery queryWithClassName:@"Users" predicate:predicate];
-                    NSMutableArray *arrayOfUsersWhoAreNotAdmins=[NSMutableArray arrayWithArray:[query findObjects]];
-                    PFObject *newUserAdmin=arrayOfUsersWhoAreNotAdmins[randomUserFromUsersWhoAreNotAdminsArray];
+                    NSInteger randomUserFromUsersWhoAreNotAdminsArray=arc4random_uniform([self.usersArray count]-2);
+                    PFObject *newUserAdmin=self.usersWhoAreNotAdminsArray[randomUserFromUsersWhoAreNotAdminsArray];
                     [newUserAdmin setObject:[NSNumber numberWithBool:YES] forKey:@"isAdmin"];
                     [newUser setObject:[NSNumber numberWithBool:NO] forKey:@"isAdmin"];
                     [newUserAdmin saveInBackground];
+                    NSString *newAdminName=[NSString stringWithFormat:@"The new admin is %@", [newUserAdmin objectForKey:@"name"]];
+                    RNBlurModalView *modal = [[RNBlurModalView alloc] initWithViewController:self title:@"New admin alert!" message:newAdminName];
+                    [modal show];
                 }
                 [newUser saveInBackground];
             }
@@ -392,14 +387,14 @@ User stuff ends
                 [newUser incrementKey:@"receivedUpvotes" byAmount:@(-upvotes)];
                 [newUser incrementKey:@"receivedDownvotes" byAmount:@(-downvotes)];
                 if (upvotes<downvotes){
-                    int randomUserFromUsersWhoAreNotAdminsArray=arc4random_uniform([self.usersArray count]-2);
-                    NSPredicate *predicate=[NSPredicate predicateWithFormat:@"isAdmin=%@", [NSNumber numberWithBool:NO]];
-                    PFQuery *query=[PFQuery queryWithClassName:@"Users" predicate:predicate];
-                    NSMutableArray *arrayOfUsersWhoAreNotAdmins=[NSMutableArray arrayWithArray:[query findObjects]];
-                    PFObject *newUserAdmin=arrayOfUsersWhoAreNotAdmins[randomUserFromUsersWhoAreNotAdminsArray];
+                    NSInteger randomUserFromUsersWhoAreNotAdminsArray=arc4random_uniform([self.usersArray count]-2);
+                    PFObject *newUserAdmin=self.usersWhoAreNotAdminsArray[randomUserFromUsersWhoAreNotAdminsArray];
                     [newUserAdmin setObject:[NSNumber numberWithBool:YES] forKey:@"isAdmin"];
                     [newUser setObject:[NSNumber numberWithBool:NO] forKey:@"isAdmin"];
                     [newUserAdmin saveInBackground];
+                    NSString *newAdminName=[NSString stringWithFormat:@"The new admin is %@", [newUserAdmin objectForKey:@"name"]];
+                    RNBlurModalView *modal = [[RNBlurModalView alloc] initWithViewController:self title:@"New admin alert!" message:newAdminName];
+                    [modal show];
                 }
                 [newUser saveInBackground];
             }

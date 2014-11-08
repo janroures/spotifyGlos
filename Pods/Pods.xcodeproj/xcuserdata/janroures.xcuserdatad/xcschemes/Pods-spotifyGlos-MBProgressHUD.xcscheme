@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4D13567FF91F46F174C3135"
+               BlueprintIdentifier = "FA7EE7344D8734D69AF4BA9B"
                BuildableName = "libPods-spotifyGlos-MBProgressHUD.a"
                BlueprintName = "Pods-spotifyGlos-MBProgressHUD"
                ReferencedContainer = "container:Pods.xcodeproj">

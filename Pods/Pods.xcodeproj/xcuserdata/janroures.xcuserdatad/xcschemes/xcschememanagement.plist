@@ -19,6 +19,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-spotifyGlos-RNBlurModalView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-spotifyGlos-autoAutoLayout.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,32 +42,37 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>43933ED641120ECDF57E632F</key>
+		<key>199D55BA4B86EF7F694A46A1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6652A506465079C8599E14F9</key>
+		<key>34986F823F77E8EEFB355254</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6AD180C28665DFA1378A76AB</key>
+		<key>3617D98F8ACDEAF07EA9A9F3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BE64164CDE81F3BDB20B5057</key>
+		<key>56D606368B7BF0585FDAB57F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D4D13567FF91F46F174C3135</key>
+		<key>A51C98AD788FEDB8C06CE574</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E0B8520883A2F68631200964</key>
+		<key>B8FE89E228428CFAB224E450</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FA7EE7344D8734D69AF4BA9B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

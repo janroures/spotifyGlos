@@ -60,6 +60,12 @@
 #define COCOAPODS_VERSION_MINOR_MBProgressHUD 9
 #define COCOAPODS_VERSION_PATCH_MBProgressHUD 0
 
+// RNBlurModalView
+#define COCOAPODS_POD_AVAILABLE_RNBlurModalView
+#define COCOAPODS_VERSION_MAJOR_RNBlurModalView 0
+#define COCOAPODS_VERSION_MINOR_RNBlurModalView 1
+#define COCOAPODS_VERSION_PATCH_RNBlurModalView 0
+
 // autoAutoLayout
 #define COCOAPODS_POD_AVAILABLE_autoAutoLayout
 #define COCOAPODS_VERSION_MAJOR_autoAutoLayout 0
