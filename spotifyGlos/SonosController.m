@@ -19,17 +19,17 @@
 @synthesize ip, port, owner;
 
 - (id)initWithIP:(NSString *)ip_ {
-    self = [self initWithIP:ip_ port:1400 owner:[[PFObject alloc]init]];
-    return self;
+    return [self initWithIP:ip_ port:1400 owner:[[PFObject alloc]init]];
 }
 
 - (id)initWithIP:(NSString *)ip_ port:(int)port_ owner:(PFObject *)owner_{
     self = [super init];
-    
-    self.ip = ip_;
-    self.port = port_;
-    if ([[owner_ objectForKey:@"isAdmin"]isEqual:@1]) {
-        self.owner = owner_;
+    if (self) {
+        self.ip = ip_;
+        self.port = port_;
+        if ([[owner_ objectForKey:@"isAdmin"]isEqual:@1]) {
+            self.owner = owner_;
+        }
     }
     return self;
 }
@@ -143,7 +143,7 @@
     }];
 }
 
-- (void)setVolume:(int)volume completion:(void (^)(NSDictionary *, NSError *))block {
+- (void)setVolume:(NSInteger)volume completion:(void (^)(NSDictionary *, NSError *))block {
     [self
      upnp:@"/MediaRenderer/RenderingControl/Control"
      soap_service:@"urn:schemas-upnp-org:service:RenderingControl:1"

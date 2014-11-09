@@ -21,18 +21,20 @@
 
 - (IBAction)showDeviceInfo:(id)sender;
 - (IBAction)showCurrentDeviceInfo:(id)sender;
-- (IBAction)currentVolume:(id)sender;
 - (IBAction)getAlbumArt:(id)sender;
 - (IBAction)playTrack:(id)sender;
 - (IBAction)previousSong:(id)sender;
 - (IBAction)voteUp:(id)sender;
 - (IBAction)voteDown:(id)sender;
 - (IBAction)nextSong:(id)sender;
+- (IBAction)volumeSlider:(id)sender;
+
 
 @property (weak, nonatomic) IBOutlet UIButton *voteUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *voteDownButton;
 @property (weak, nonatomic) IBOutlet UIButton *nextSongButton;
 @property (weak, nonatomic) IBOutlet UIButton *previousSongButton;
+@property (weak, nonatomic) IBOutlet UISlider *volumeSlider;
 
 @property (weak, nonatomic) IBOutlet UIImageView *albumArt;
 @property (weak, nonatomic) IBOutlet UILabel *songNameLabel;
@@ -77,15 +79,21 @@
     self.reachabilityManager=[AFNetworkReachabilityManager sharedManager];
     [self.reachabilityManager startMonitoring];
     
-    self.playButton.enabled=NO;
-    self.nextSongButton.enabled=NO;
-    self.previousSongButton.enabled=NO;
+
+    self.volumeSlider.minimumValue=0;
+    self.volumeSlider.maximumValue=100;
+    
     
     self.songInfo = [[NSMutableDictionary alloc] init];
     self.sonosManager = [SonosManager sharedInstance];
 //    NSDictionary *currentDeviceInfo = [NSDictionary dictionaryWithDictionary:self.sonosManager.allDevices[0]];
     //    self.currentDevice = [[SonosController alloc] initWithIP:currentDeviceInfo[@"ip"] port:1400 owner:self.currentUserObject];
     self.currentDevice = [[SonosController alloc] initWithIP:@"192.168.2.160" port:1400 owner:self.currentUserObject];
+    
+    
+    [self.currentDevice getVolume:^(NSInteger currentVolume, NSError *err) {
+        self.volumeSlider.value=currentVolume;
+    }];
     __block NSDictionary *blockDictionary = [[NSDictionary alloc] init];
     
     [self.currentDevice trackInfo:^(NSDictionary * returnData, NSError *error){
@@ -105,7 +113,14 @@
         self.playButton.enabled=YES;
         self.nextSongButton.enabled=YES;
         self.previousSongButton.enabled=YES;
+        self.volumeSlider.enabled=YES;
+    }else{
+        self.playButton.enabled=NO;
+        self.nextSongButton.enabled=NO;
+        self.previousSongButton.enabled=NO;
+        self.volumeSlider.enabled=NO;
     }
+    
     [self.albumArt setBackgroundColor:[UIColor redColor]];
     [self.artistNameLabel setBackgroundColor:[UIColor blueColor]];
     [self.songNameLabel setBackgroundColor:[UIColor yellowColor]];
@@ -125,14 +140,12 @@
 }
 
 -(void) setUpConstraints{
-    
     [self.view setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.view removeConstraints:self.view.constraints];
-    
     NSDictionary *elementsDictionary = NSDictionaryOfVariableBindings(_albumArt, _songNameLabel, _artistNameLabel);
     NSNumber *centerY = [NSNumber numberWithDouble:CGRectGetMidY(self.view.frame)];
     NSDictionary *metrics = @{ @"frameCenterY" : centerY };
-    
+
     NSArray *coverArtConstraints = @[[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_albumArt]|"
                                                                              options:0
                                                                              metrics:nil
@@ -341,17 +354,6 @@
     }];
 }
 
-- (IBAction)currentVolume:(id)sender {
-    [self.currentDevice getVolume:^(NSInteger volume, NSError *error){
-        if (!error) {
-            NSLog(@"The volume: %li", (long)volume);
-            self.currentVolume = volume;
-        }else{
-            NSLog(@"The volume: %li , error", (long)volume);
-        }
-    }];
-}
-
 - (IBAction)getAlbumArt:(id)sender {
     //simple method from the AFNetworking UIImageView category
     NSLog(@"%@" ,self.currentSong[@"MetaDataAlbumArtURI"]);
@@ -426,6 +428,11 @@
             }
         }];
         NSLog(@"Next Song");
+    }];
+}
+
+- (IBAction)volumeSlider:(id)sender {
+    [self.currentDevice setVolume:self.volumeSlider.value completion:^(NSDictionary *result, NSError *err) {
     }];
 }
 
