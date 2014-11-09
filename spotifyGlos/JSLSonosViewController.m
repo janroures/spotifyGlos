@@ -5,7 +5,6 @@
 //  Created by Louis Tur on 10/31/14.
 //  Copyright (c) 2014 com.Spotify. All rights reserved.
 
-
 #import "JSLSonosViewController.h"
 #import "SonosManager.h"
 #import "UIView+FrameGetters.h"
@@ -47,18 +46,16 @@
 @property (strong, nonatomic) __block UIImage *albumImage;
 @property (nonatomic) __block NSInteger currentVolume;
 
-@property(nonatomic)BOOL isPlaying;
-
 @property(strong,nonatomic)AFNetworkReachabilityManager *reachabilityManager;
 @property(strong,nonatomic)AFHTTPSessionManager *sessionManager;
 
-/* 
-User stuff
-
-user stuff declared in .h because we need to access it from the TableVC
-
-User stuff ends
-*/
+/*
+ User stuff
+ 
+ user stuff declared in .h because we need to access it from the TableVC
+ 
+ User stuff ends
+ */
 
 @property (strong, nonatomic) NSArray *devices;
 @property (strong, nonatomic) __block NSMutableDictionary *songInfo;
@@ -86,8 +83,9 @@ User stuff ends
     
     self.songInfo = [[NSMutableDictionary alloc] init];
     self.sonosManager = [SonosManager sharedInstance];
-    self.isPlaying=YES;
-    self.currentDevice = [[SonosController alloc] initWithIP:@"192.168.2.160" port:1400 owner:self.user];
+//    NSDictionary *currentDeviceInfo = [NSDictionary dictionaryWithDictionary:self.sonosManager.allDevices[0]];
+    //    self.currentDevice = [[SonosController alloc] initWithIP:currentDeviceInfo[@"ip"] port:1400 owner:self.currentUserObject];
+    self.currentDevice = [[SonosController alloc] initWithIP:@"192.168.2.160" port:1400 owner:self.currentUserObject];
     __block NSDictionary *blockDictionary = [[NSDictionary alloc] init];
     
     [self.currentDevice trackInfo:^(NSDictionary * returnData, NSError *error){
@@ -102,8 +100,8 @@ User stuff ends
         }
     }];
     NSLog(@"%@", [self.currentDevice class]);
-
-    if (self.user.isAdmin==YES) {
+    
+    if ([[self.currentUserObject objectForKey:@"isAdmin"] isEqual:@1]) {
         self.playButton.enabled=YES;
         self.nextSongButton.enabled=YES;
         self.previousSongButton.enabled=YES;
@@ -114,14 +112,16 @@ User stuff ends
     [self.buttonContainer setBackgroundColor:[UIColor purpleColor]];
     self.voteUpButton.imageView.image=[UIImage imageNamed:@"thumbup.png"];
     self.voteDownButton.imageView.image=[UIImage imageNamed:@"thumbdown.png"];
-
+    
     [self.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         if (![AFNetworkReachabilityManager sharedManager].networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi ) {
-            NSLog(@"%ld", status);
+            NSLog(@"%d", status);
         }else{
             NSLog(@"You're on wifi");
         }
     }];
+    
+    NSLog(@"Has voted: %@ and its class is: %@", [self.currentUserObject objectForKey:@"hasVoted"], [[self.currentUserObject objectForKey:@"hasVoted"]class]);
 }
 
 -(void) setUpConstraints{
@@ -299,8 +299,8 @@ User stuff ends
         if (![[currentUser objectForKey:@"isAdmin"]isEqual:@0]) {
             NSInteger upvotes=[[currentUser objectForKey:@"receivedUpvotes"] integerValue];
             NSInteger downvotes=[[currentUser objectForKey:@"receivedDownvotes"] integerValue];
-            [currentUser incrementKey:@"receivedUpvotes" byAmount:@(-upvotes)];
-            [currentUser incrementKey:@"receivedDownvotes" byAmount:@(-downvotes)];
+            [currentUser setValue:@0 forKey:@"receivedUpvotes"];
+            [currentUser setValue:@0 forKey:@"receivedDownvotes"];
             [currentUser saveInBackground];
             if (upvotes<downvotes){
                 [self changeAdmin:currentUser];
@@ -318,7 +318,6 @@ User stuff ends
     // can use the commented out stuff above to get the info; i just pulled out the specific IP
     // for "Soundwall" because the controller randomly assigns the 2 devices it finds in an array
 }
-
 //used to get the current song and set it to self.currentsong
 - (IBAction)showCurrentDeviceInfo:(id)sender {
     /***********************************************************************************
@@ -328,15 +327,14 @@ User stuff ends
      *  so that I can pull album art.                                                  *
      *                                                                                 *
      ***********************************************************************************/
-    
     __block NSDictionary *blockDictionary = [[NSDictionary alloc] init];
-    
     [self.currentDevice trackInfo:^(NSDictionary * returnData, NSError *error){
         if (!error) {
             blockDictionary = [NSDictionary dictionaryWithDictionary:returnData];
             self.currentSong = [NSMutableDictionary dictionaryWithDictionary:blockDictionary];
             self.songNameLabel.text = self.currentSong[@"MetaDataTitle"];
             self.artistNameLabel.text = self.currentSong[@"MetaDataCreator"];
+            [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]] placeholderImage:[UIImage imageNamed:@"ele-earth-icon"]];
         }else{
             NSLog(@"There was an error getting the current track\n\nThe errors: %@", error.localizedDescription);
         }
@@ -361,26 +359,47 @@ User stuff ends
 }
 
 - (IBAction)playTrack:(id)sender {
-    NSError *err = nil;
-    NSString *songTitle = self.currentSong[@"MetaDataTitle"];
-    NSURL *songURL = [NSURL URLWithString:self.currentSong[@"TrackURI"]];
-    NSString *songStringFromURL=[NSString stringWithContentsOfURL:songURL encoding:NSUTF8StringEncoding error:&err];
-    NSLog(@"the song: %@ and URI: %@ and SongString: %@", songTitle, songURL ,songStringFromURL);
-    if (self.isPlaying==YES) {
-        [self.currentDevice pause:^(NSDictionary *dictionary, NSError *err) {
-            self.isPlaying=NO;
-            NSLog(@"Paused");
-        }];
-    }else{
-        [self.currentDevice play:self.currentSong[@"TrackURI"] completion:nil];
-        self.isPlaying=YES;
-        NSLog(@"Playing");
-    }
+    //    NSError *err = nil;
+    //    NSString *songTitle = self.currentSong[@"MetaDataTitle"];
+    //    NSURL *songURL = [NSURL URLWithString:self.currentSong[@"TrackURI"]];
+    //    NSString *songStringFromURL=[NSString stringWithContentsOfURL:songURL encoding:NSUTF8StringEncoding error:&err];
+    //    NSLog(@"the song: %@ and URI: %@ and SongString: %@", songTitle, songURL ,songStringFromURL);
+    
+    //checks the current device status and plays/pauses the song depending on the status
+    [self.currentDevice status:^(NSDictionary *statusResult, NSError *error) {
+        if ([statusResult[@"CurrentTransportState"] isEqual:@"PAUSED_PLAYBACK"] ) {
+            [self.currentDevice play:self.currentSong[@"TrackURI"] completion:^(NSDictionary *result, NSError *err) {
+                NSLog(@"Playing");
+            }];
+        }else if ([statusResult[@"CurrentTransportState"]isEqual:@"PLAYING"]){
+            [self.currentDevice pause:^(NSDictionary *result, NSError *err) {
+                NSLog(@"Paused");
+            }];
+        }
+    }];
 }
 
 - (IBAction)previousSong:(id)sender {
     [self.currentDevice previous:^(NSDictionary *dict, NSError *error) {
         [self resetVotesCount];
+        PFQuery *query=[PFQuery queryWithClassName:@"Users"];
+        NSArray *users=[query findObjects];
+        for (PFObject *currentObject in users) {
+            [currentObject setValue:@0 forKey:@"hasVoted"];
+            [currentObject saveInBackground];
+        }
+        __block NSDictionary *blockDictionary = [[NSDictionary alloc] init];
+        [self.currentDevice trackInfo:^(NSDictionary * returnData, NSError *error){
+            if (!error) {
+                blockDictionary = [NSDictionary dictionaryWithDictionary:returnData];
+                self.currentSong = [NSMutableDictionary dictionaryWithDictionary:blockDictionary];
+                self.songNameLabel.text = self.currentSong[@"MetaDataTitle"];
+                self.artistNameLabel.text = self.currentSong[@"MetaDataCreator"];
+                [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]] placeholderImage:[UIImage imageNamed:@"ele-earth-icon"]];
+            }else{
+                NSLog(@"There was an error getting the current track\n\nThe errors: %@", error.localizedDescription);
+            }
+        }];
         NSLog(@"Previous Song");
     }];
 }
@@ -388,12 +407,32 @@ User stuff ends
 - (IBAction)nextSong:(id)sender {
     [self.currentDevice next:^(NSDictionary *dict, NSError *error) {
         [self resetVotesCount];
+        PFQuery *query=[PFQuery queryWithClassName:@"Users"];
+        NSArray *users=[query findObjects];
+        for (PFObject *currentObject in users) {
+            [currentObject setValue:@0 forKey:@"hasVoted"];
+            [currentObject saveInBackground];
+        }
+        __block NSDictionary *blockDictionary = [[NSDictionary alloc] init];
+        [self.currentDevice trackInfo:^(NSDictionary * returnData, NSError *error){
+            if (!error) {
+                blockDictionary = [NSDictionary dictionaryWithDictionary:returnData];
+                self.currentSong = [NSMutableDictionary dictionaryWithDictionary:blockDictionary];
+                self.songNameLabel.text = self.currentSong[@"MetaDataTitle"];
+                self.artistNameLabel.text = self.currentSong[@"MetaDataCreator"];
+                [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]] placeholderImage:[UIImage imageNamed:@"ele-earth-icon"]];
+            }else{
+                NSLog(@"There was an error getting the current track\n\nThe errors: %@", error.localizedDescription);
+            }
+        }];
         NSLog(@"Next Song");
     }];
 }
 
 - (IBAction)voteUp:(id)sender {
-    if (self.user.isAdmin==NO) {
+    if ([[self.currentUserObject objectForKey:@"isAdmin"] isEqual:@0] && [[self.currentUserObject objectForKey:@"hasVoted"] isEqual:@0]) {
+        [self.currentUserObject incrementKey:@"hasVoted"];
+        [self.currentUserObject saveInBackground];
         for (PFObject *newUser in self.usersArray) {
             if (![[newUser objectForKey:@"isAdmin"]isEqual:@0]) {
                 [newUser incrementKey:@"receivedUpvotes"];
@@ -404,7 +443,9 @@ User stuff ends
 }
 
 - (IBAction)voteDown:(id)sender {
-    if (self.user.isAdmin==NO) {
+    if ([[self.currentUserObject objectForKey:@"isAdmin"] isEqual:@0] && [[self.currentUserObject objectForKey:@"hasVoted"] isEqual:@0]) {
+        [self.currentUserObject incrementKey:@"hasVoted"];
+        [self.currentUserObject saveInBackground];
         for (PFObject *newUser in self.usersArray) {
             if (![[newUser objectForKey:@"isAdmin"]isEqual:@0]) {
                 [newUser incrementKey:@"receivedDownvotes"];

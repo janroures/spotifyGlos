@@ -124,7 +124,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rrs-d7-qUE">
-                                        <rect key="frame" x="73" y="47" width="30" height="30"/>
+                                        <rect key="frame" x="8" y="47" width="168" height="30"/>
                                         <state key="normal" title="Play">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -132,17 +132,8 @@
                                             <action selector="playTrack:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="fjw-jk-OEw"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HYW-1z-7nk">
-                                        <rect key="frame" x="65" y="1" width="47" height="30"/>
-                                        <state key="normal" title="Device">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="showDeviceInfo:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="sJr-Fu-7ZL"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJY-ho-0tH">
-                                        <rect key="frame" x="66" y="69" width="49" height="30"/>
+                                        <rect key="frame" x="8" y="69" width="168" height="30"/>
                                         <state key="normal" title="Get Art">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -160,7 +151,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7xz-H0-glC">
-                                        <rect key="frame" x="62" y="26" width="52" height="30"/>
+                                        <rect key="frame" x="8" y="26" width="168" height="30"/>
                                         <state key="normal" title="Current">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -175,6 +166,15 @@
                                         </state>
                                         <connections>
                                             <action selector="nextSong:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="bRZ-Lf-GD8"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HYW-1z-7nk">
+                                        <rect key="frame" x="8" y="0.0" width="168" height="30"/>
+                                        <state key="normal" title="Device">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="showDeviceInfo:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="sJr-Fu-7ZL"/>
                                         </connections>
                                     </button>
                                 </subviews>

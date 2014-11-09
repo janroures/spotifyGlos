@@ -24,9 +24,10 @@
     if(self){
         [SonosDiscover discoverControllers:^(NSArray *devices, NSError *error){
             self.allDevices = devices;
-            if(self.allDevices.count > 0)
+            if(self.allDevices.count > 0){
                 self.currentDevice = [self.allDevices objectAtIndex:0];
-            NSLog(@"Device found");
+                NSLog(@"Device found");
+            }
         }];
     }
     return self;

@@ -64,20 +64,8 @@
     JSLSonosViewController *vc=[segue destinationViewController];
     NSIndexPath *selectedIndexPath=[self.tableView indexPathForSelectedRow];
     PFObject *newUser=self.usersArray[selectedIndexPath.row];
-    NSString *retrievedUserName=[newUser objectForKey:@"name"];
-    BOOL retrievedIsAdmin;
-    if ([[newUser objectForKey:@"isAdmin"]isEqual:@1]) {
-        retrievedIsAdmin=YES;
-    }else{
-        retrievedIsAdmin=NO;
-    }
-    NSNumber *retrievedtimesAdmin=[newUser objectForKey:@"timesAdmin"];
-    NSNumber *retrievedreceivedUpvotes=[newUser objectForKey:@"receivedUpvotes"];
-    NSNumber *retrievedreceivedDownvotes=[newUser objectForKey:@"receivedDownvotes"];
-    NSMutableArray *retrievedtopSongs=[NSMutableArray arrayWithArray:[newUser objectForKey:@"topSongs"]];
-    User *userToPass=[[User alloc]initWithUserName:retrievedUserName isAdmin:retrievedIsAdmin timesAdmin:retrievedtimesAdmin receivedUpvotes:retrievedreceivedUpvotes receivedDownvotes:retrievedreceivedDownvotes topSongs:retrievedtopSongs];
-    vc.user=userToPass;
     vc.usersArray=self.usersArray;
+    vc.currentUserObject=newUser;
 }
 
 /*

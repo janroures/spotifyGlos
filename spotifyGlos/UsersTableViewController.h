@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-
 @interface UsersTableViewController : UITableViewController
 
 @end

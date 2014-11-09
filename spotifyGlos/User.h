@@ -16,8 +16,9 @@
 @property(strong,nonatomic)NSNumber *receivedUpvotes;
 @property(strong,nonatomic)NSNumber *receivedDownvotes;
 @property(strong,nonatomic)NSMutableArray *topSongs;
+@property(strong,nonatomic)NSNumber *hasVoted;
 
 -(instancetype)init;
--(instancetype)initWithUserName:(NSString *)username isAdmin:(BOOL)isadmin timesAdmin:(NSNumber *)timesadmin receivedUpvotes:(NSNumber *)receivedupvotes receivedDownvotes:(NSNumber *)receiveddownvotes topSongs:(NSMutableArray *)topsongs;
+-(instancetype)initWithUserName:(NSString *)username isAdmin:(BOOL)isadmin timesAdmin:(NSNumber *)timesadmin receivedUpvotes:(NSNumber *)receivedupvotes receivedDownvotes:(NSNumber *)receiveddownvotes topSongs:(NSMutableArray *)topsongs hasVoted:(NSNumber *)hasvoted;
 
 @end

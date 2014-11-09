@@ -19,16 +19,16 @@
 @synthesize ip, port, owner;
 
 - (id)initWithIP:(NSString *)ip_ {
-    self = [self initWithIP:ip_ port:1400 owner:[[User alloc]init]];
+    self = [self initWithIP:ip_ port:1400 owner:[[PFObject alloc]init]];
     return self;
 }
 
-- (id)initWithIP:(NSString *)ip_ port:(int)port_ owner:(User *)owner_{
+- (id)initWithIP:(NSString *)ip_ port:(int)port_ owner:(PFObject *)owner_{
     self = [super init];
     
     self.ip = ip_;
     self.port = port_;
-    if (owner_.isAdmin==YES) {
+    if ([[owner_ objectForKey:@"isAdmin"]isEqual:@1]) {
         self.owner = owner_;
     }
     return self;
