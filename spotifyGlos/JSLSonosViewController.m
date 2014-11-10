@@ -15,13 +15,15 @@
 #import <AutoAutoLayout.h>
 #import "SonosController.h"
 #import <RNBlurModalView.h>
+#import "SearchDisplayTableViewController.h"
+#import "Songs.h"
+#import "SongTableCellTableViewCell.h"
 
 
-@interface JSLSonosViewController ()
+@interface JSLSonosViewController () <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource>
 
-- (IBAction)showDeviceInfo:(id)sender;
+//Actions
 - (IBAction)showCurrentDeviceInfo:(id)sender;
-- (IBAction)getAlbumArt:(id)sender;
 - (IBAction)playTrack:(id)sender;
 - (IBAction)previousSong:(id)sender;
 - (IBAction)voteUp:(id)sender;
@@ -29,13 +31,22 @@
 - (IBAction)nextSong:(id)sender;
 - (IBAction)volumeSlider:(id)sender;
 
+//Search
+@property(strong,nonatomic)UISearchController *searchController;
+@property(strong,nonatomic) SearchDisplayTableViewController *resultsTable;
+@property (weak, nonatomic) IBOutlet UITextField *searchTextField;
+@property(strong,nonatomic) UITableView *hiddenTableView;
+@property (strong, nonatomic) NSArray *songs;
+@property (strong, nonatomic) NSArray *searchResults;
 
+//View outlets
 @property (weak, nonatomic) IBOutlet UIButton *voteUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *voteDownButton;
 @property (weak, nonatomic) IBOutlet UIButton *nextSongButton;
 @property (weak, nonatomic) IBOutlet UIButton *previousSongButton;
 @property (weak, nonatomic) IBOutlet UISlider *volumeSlider;
-
+@property (weak, nonatomic) IBOutlet UILabel *votesDownLabel;
+@property (weak, nonatomic) IBOutlet UILabel *votesUpLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *albumArt;
 @property (weak, nonatomic) IBOutlet UILabel *songNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *artistNameLabel;
@@ -68,66 +79,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+//Auto Auto-layout
     [self.view removeConstraints:self.view.constraints];
     [AutoAutoLayout reLayoutAllSubviewsFromBase:@"4s" forSubviewsOf:self.view];
     
+//Query for users who are not admins
     NSPredicate *predicate=[NSPredicate predicateWithFormat:@"isAdmin=%@", [NSNumber numberWithBool:NO]];
     PFQuery *query=[PFQuery queryWithClassName:@"Users" predicate:predicate];
     self.usersWhoAreNotAdminsArray=[NSMutableArray arrayWithArray:[query findObjects]];
     
+//Init session and reachibility managers
     self.sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"www.google.com"] sessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     self.reachabilityManager=[AFNetworkReachabilityManager sharedManager];
     [self.reachabilityManager startMonitoring];
-    
-
-    self.volumeSlider.minimumValue=0;
-    self.volumeSlider.maximumValue=100;
-    
-    
-    self.songInfo = [[NSMutableDictionary alloc] init];
-    self.sonosManager = [SonosManager sharedInstance];
-//    NSDictionary *currentDeviceInfo = [NSDictionary dictionaryWithDictionary:self.sonosManager.allDevices[0]];
-    //    self.currentDevice = [[SonosController alloc] initWithIP:currentDeviceInfo[@"ip"] port:1400 owner:self.currentUserObject];
-    self.currentDevice = [[SonosController alloc] initWithIP:@"192.168.2.160" port:1400 owner:self.currentUserObject];
-    
-    
-    [self.currentDevice getVolume:^(NSInteger currentVolume, NSError *err) {
-        self.volumeSlider.value=currentVolume;
-    }];
-    __block NSDictionary *blockDictionary = [[NSDictionary alloc] init];
-    
-    [self.currentDevice trackInfo:^(NSDictionary * returnData, NSError *error){
-        if (!error) {
-            blockDictionary = [NSDictionary dictionaryWithDictionary:returnData];
-            self.currentSong = [NSMutableDictionary dictionaryWithDictionary:blockDictionary];
-            self.songNameLabel.text = self.currentSong[@"MetaDataTitle"];
-            self.artistNameLabel.text = self.currentSong[@"MetaDataCreator"];
-            [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]] placeholderImage:[UIImage imageNamed:@"ele-earth-icon"]];
-        }else{
-            NSLog(@"There was an error getting the current track\n\nThe errors: %@", error.localizedDescription);
-        }
-    }];
-    NSLog(@"%@", [self.currentDevice class]);
-    
-    if ([[self.currentUserObject objectForKey:@"isAdmin"] isEqual:@1]) {
-        self.playButton.enabled=YES;
-        self.nextSongButton.enabled=YES;
-        self.previousSongButton.enabled=YES;
-        self.volumeSlider.enabled=YES;
-    }else{
-        self.playButton.enabled=NO;
-        self.nextSongButton.enabled=NO;
-        self.previousSongButton.enabled=NO;
-        self.volumeSlider.enabled=NO;
-    }
-    
-    [self.albumArt setBackgroundColor:[UIColor redColor]];
-    [self.artistNameLabel setBackgroundColor:[UIColor blueColor]];
-    [self.songNameLabel setBackgroundColor:[UIColor yellowColor]];
-    [self.buttonContainer setBackgroundColor:[UIColor purpleColor]];
-    self.voteUpButton.imageView.image=[UIImage imageNamed:@"thumbup.png"];
-    self.voteDownButton.imageView.image=[UIImage imageNamed:@"thumbdown.png"];
-    
     [self.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         if (![AFNetworkReachabilityManager sharedManager].networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi ) {
             NSLog(@"%d", status);
@@ -136,7 +101,143 @@
         }
     }];
     
-    NSLog(@"Has voted: %@ and its class is: %@", [self.currentUserObject objectForKey:@"hasVoted"], [[self.currentUserObject objectForKey:@"hasVoted"]class]);
+//Initializing search tableView and and textView delegates
+    [self.view addSubview:self.hiddenTableView];
+    self.resultsTable = [SearchDisplayTableViewController new];
+    self.searchController = [[UISearchController alloc]initWithSearchResultsController:self.resultsTable];
+    self.hiddenTableView.dataSource = self;
+    self.hiddenTableView.delegate = self;
+    self.searchTextField.delegate = self;
+    [self.searchTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    
+//Volume Slider
+    self.volumeSlider.minimumValue=0;
+    self.volumeSlider.maximumValue=100;
+    self.volumeSlider.maximumTrackTintColor=[UIColor blackColor];
+    self.volumeSlider.minimumTrackTintColor=[UIColor blackColor];
+    self.volumeSlider.thumbTintColor=[UIColor blackColor];
+    
+//Init sonosManager and sonosController --also setting up volume slider current volume--
+    //self.songInfo = [[NSMutableDictionary alloc] init];
+    self.sonosManager = [SonosManager sharedInstance];
+    //NSDictionary *currentDeviceInfo = [NSDictionary dictionaryWithDictionary:self.sonosManager.allDevices[0]];
+    //    self.currentDevice = [[SonosController alloc] initWithIP:currentDeviceInfo[@"ip"] port:1400 owner:self.currentUserObject];
+    self.currentDevice = [[SonosController alloc] initWithIP:@"192.168.2.160" port:1400 owner:self.currentUserObject];
+    [self.currentDevice getVolume:^(NSInteger currentVolume, NSError *err) {
+        self.volumeSlider.value=currentVolume;
+    }];
+    
+//Set up album art, song label, artist label
+    __block NSDictionary *blockDictionary = [[NSDictionary alloc] init];
+    [self.currentDevice trackInfo:^(NSDictionary * returnData, NSError *error){
+        if (!error) {
+            blockDictionary = [NSDictionary dictionaryWithDictionary:returnData];
+            self.currentSong = [NSMutableDictionary dictionaryWithDictionary:blockDictionary];
+            self.songNameLabel.text = self.currentSong[@"MetaDataTitle"];
+            self.artistNameLabel.text = self.currentSong[@"MetaDataCreator"];
+            [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
+        }else{
+            NSLog(@"There was an error getting the current track\n\nThe errors: %@", error.localizedDescription);
+        }
+    }];
+    NSLog(@"%@", [self.currentDevice class]);
+    
+//Set pause/play button image depending on the current song status
+    [self.currentDevice status:^(NSDictionary *statusResult, NSError *error) {
+        if ([statusResult[@"CurrentTransportState"] isEqual:@"PAUSED_PLAYBACK"] ) {
+            [self.playButton setImage:[UIImage imageNamed:@"playbutton2.jpeg"] forState:UIControlStateNormal];
+            NSLog(@"Paused");
+        }else{
+            [self.playButton setImage:[UIImage imageNamed:@"pauseIcon.png"] forState:UIControlStateNormal];
+            NSLog(@"Playing");
+        }
+    }];
+    
+//Set up control buttons depending on if the current user is an Admin or not
+    if ([[self.currentUserObject objectForKey:@"isAdmin"] isEqual:@1]) {
+        self.playButton.enabled=YES;
+        self.nextSongButton.enabled=YES;
+        self.previousSongButton.enabled=YES;
+        self.volumeSlider.enabled=YES;
+        self.searchTextField.enabled=YES;
+        self.voteUpButton.enabled=NO;
+        self.voteDownButton.enabled=NO;
+    }else{
+        self.playButton.enabled=NO;
+        self.nextSongButton.enabled=NO;
+        self.previousSongButton.enabled=NO;
+        self.volumeSlider.enabled=NO;
+        self.searchTextField.enabled=NO;
+        self.voteUpButton.enabled=YES;
+        self.voteDownButton.enabled=YES;
+    }
+    
+// Initialize the test songs array
+    Songs *song1 = [Songs new];
+    song1.artist = @"Artist1";
+    song1.song = @"Song1";
+    
+    Songs *song2 = [Songs new];
+    song2.artist = @"Arist2";
+    song2.song = @"Song2";
+    
+    self.songs = [NSArray arrayWithObjects: song1, song2, nil];
+
+//Query for user who is admin --set up vote labels
+    NSPredicate *adminPredicate=[NSPredicate predicateWithFormat:@"isAdmin=%@", [NSNumber numberWithBool:YES]];
+    PFQuery *adminQuery=[PFQuery queryWithClassName:@"Users" predicate:adminPredicate];
+    NSArray *adminArray=[NSMutableArray arrayWithArray:[adminQuery findObjects]];
+    for (PFObject *retrievedAdmin in adminArray) {
+        if ([[retrievedAdmin objectForKey:@"isAdmin"]isEqual:@1]) {
+            self.votesUpLabel.text=[NSString stringWithFormat:@"%@", [retrievedAdmin objectForKey:@"receivedUpvotes"]];
+            self.votesDownLabel.text=[NSString stringWithFormat:@"%@", [retrievedAdmin objectForKey:@"receivedDownvotes"]];
+        }
+    }
+//viewDidLoad ends
+}
+
+//Text field delegates
+- (void)textFieldDidChange:(id)sender {
+    if (self.searchTextField.text.length == 0) {
+        self.hiddenTableView.hidden = YES;
+    } else {
+        self.hiddenTableView.hidden = NO;
+        NSPredicate *resultsPredicate = [NSPredicate predicateWithFormat:@"song CONTAINS[c] %@", self.searchTextField.text];
+        self.searchResults = [self.songs filteredArrayUsingPredicate:resultsPredicate];
+        [self.hiddenTableView reloadData];
+    }
+}
+
+#pragma mark - Lazy init
+- (UITableView *)hiddenTableView {
+    if (_hiddenTableView == nil) {
+        _hiddenTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 63, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) - 63)];
+        [_hiddenTableView registerClass:[SongTableCellTableViewCell class] forCellReuseIdentifier:@"searchCell"];
+        _hiddenTableView.hidden = YES;
+    }
+    return _hiddenTableView;
+}
+
+#pragma mark - Table view delegates
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.searchResults.count;
+}
+
+#pragma mark - Table view data source
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    SongTableCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"searchCell"];
+    //    if (self.searchResults.count > 0) {
+    Songs *currentSong = self.searchResults[indexPath.row];
+    cell.songLabel.text = currentSong.song;
+    cell.artistLabel.text = currentSong.artist;
+    //    }
+    return cell;
 }
 
 -(void) setUpConstraints{
@@ -347,17 +448,11 @@
             self.currentSong = [NSMutableDictionary dictionaryWithDictionary:blockDictionary];
             self.songNameLabel.text = self.currentSong[@"MetaDataTitle"];
             self.artistNameLabel.text = self.currentSong[@"MetaDataCreator"];
-            [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]] placeholderImage:[UIImage imageNamed:@"ele-earth-icon"]];
+            [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
         }else{
             NSLog(@"There was an error getting the current track\n\nThe errors: %@", error.localizedDescription);
         }
     }];
-}
-
-- (IBAction)getAlbumArt:(id)sender {
-    //simple method from the AFNetworking UIImageView category
-    NSLog(@"%@" ,self.currentSong[@"MetaDataAlbumArtURI"]);
-    [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]] placeholderImage:[UIImage imageNamed:@"ele-earth-icon"]];
 }
 
 - (IBAction)playTrack:(id)sender {
@@ -371,10 +466,14 @@
     [self.currentDevice status:^(NSDictionary *statusResult, NSError *error) {
         if ([statusResult[@"CurrentTransportState"] isEqual:@"PAUSED_PLAYBACK"] ) {
             [self.currentDevice play:self.currentSong[@"TrackURI"] completion:^(NSDictionary *result, NSError *err) {
+                [self.playButton setImage:[UIImage imageNamed:@"playbutton2.jpeg"] forState:UIControlStateNormal];
+                [self.view setNeedsDisplay];
                 NSLog(@"Playing");
             }];
-        }else if ([statusResult[@"CurrentTransportState"]isEqual:@"PLAYING"]){
+        }else{
             [self.currentDevice pause:^(NSDictionary *result, NSError *err) {
+                [self.playButton setImage:[UIImage imageNamed:@"pauseIcon.png"] forState:UIControlStateNormal];
+                [self.view setNeedsDisplay];
                 NSLog(@"Paused");
             }];
         }
@@ -443,9 +542,14 @@
         for (PFObject *newUser in self.usersArray) {
             if (![[newUser objectForKey:@"isAdmin"]isEqual:@0]) {
                 [newUser incrementKey:@"receivedUpvotes"];
+                self.votesUpLabel.text=[NSString stringWithFormat:@"%@", [newUser objectForKey:@"receivedUpvotes"]];
+                [self.view setNeedsDisplay];
                 [newUser saveInBackground];
             }
         }
+    }else{
+        RNBlurModalView *modal = [[RNBlurModalView alloc] initWithViewController:self title:@"Invalid vote!" message:@"You already voted for this song!"];
+        [modal show];
     }
 }
 
@@ -456,9 +560,14 @@
         for (PFObject *newUser in self.usersArray) {
             if (![[newUser objectForKey:@"isAdmin"]isEqual:@0]) {
                 [newUser incrementKey:@"receivedDownvotes"];
+                self.votesDownLabel.text=[NSString stringWithFormat:@"%@",[newUser objectForKey:@"receivedDownvotes"]];
+                [self.view setNeedsDisplay];
                 [newUser saveInBackground];
             }
         }
+    }else{
+        RNBlurModalView *modal = [[RNBlurModalView alloc] initWithViewController:self title:@"Invalid vote!" message:@"You already voted for this song!"];
+        [modal show];
     }
 }
 

@@ -24,8 +24,17 @@
 		0B3F486A1A0B2F34008742F8 /* SonosManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F48651A0B2F34008742F8 /* SonosManager.m */; };
 		0B3F486B1A0B2F34008742F8 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F48671A0B2F34008742F8 /* XMLReader.m */; };
 		0B580AD01A0BDC820019A6AC /* sonos_device_xml.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0B580ACF1A0BDC820019A6AC /* sonos_device_xml.xml */; };
-		0B80B2551A0D1D8C0058073E /* thumbdown.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B80B2531A0D1D8C0058073E /* thumbdown.png */; };
-		0B80B2561A0D1D8C0058073E /* thumbup.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B80B2541A0D1D8C0058073E /* thumbup.png */; };
+		0BA0EC261A110E1C005AFE5B /* playbutton2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 0BA0EC1E1A110E1C005AFE5B /* playbutton2.jpeg */; };
+		0BA0EC271A110E1C005AFE5B /* lineIcon.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 0BA0EC1F1A110E1C005AFE5B /* lineIcon.jpeg */; };
+		0BA0EC281A110E1C005AFE5B /* Thumbs-DownSmiley-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BA0EC201A110E1C005AFE5B /* Thumbs-DownSmiley-icon.png */; };
+		0BA0EC291A110E1C005AFE5B /* previousIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BA0EC211A110E1C005AFE5B /* previousIcon.png */; };
+		0BA0EC2A1A110E1C005AFE5B /* nextIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BA0EC221A110E1C005AFE5B /* nextIcon.png */; };
+		0BA0EC2B1A110E1C005AFE5B /* pauseIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BA0EC231A110E1C005AFE5B /* pauseIcon.png */; };
+		0BA0EC2C1A110E1C005AFE5B /* Thumbs-UpSmiley-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BA0EC241A110E1C005AFE5B /* Thumbs-UpSmiley-icon.png */; };
+		0BA0EC2D1A110E1C005AFE5B /* settings icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BA0EC251A110E1C005AFE5B /* settings icon.png */; };
+		0BA0EC301A111726005AFE5B /* SearchDisplayTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0EC2F1A111726005AFE5B /* SearchDisplayTableViewController.m */; };
+		0BA0EC331A11184A005AFE5B /* Songs.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0EC321A11184A005AFE5B /* Songs.m */; };
+		0BA0EC361A11187F005AFE5B /* SongTableCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0EC351A11187F005AFE5B /* SongTableCellTableViewCell.m */; };
 		0BE2E1751A0C0829003CC782 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE2E1741A0C0829003CC782 /* User.m */; };
 		0BE2E1781A0C5238003CC782 /* UsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE2E1771A0C5238003CC782 /* UsersTableViewController.m */; };
 		0BE2E17B1A0C54BB003CC782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BE2E1791A0C54BB003CC782 /* Main.storyboard */; };
@@ -72,8 +81,20 @@
 		0B3F48661A0B2F34008742F8 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
 		0B3F48671A0B2F34008742F8 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
 		0B580ACF1A0BDC820019A6AC /* sonos_device_xml.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sonos_device_xml.xml; sourceTree = "<group>"; };
-		0B80B2531A0D1D8C0058073E /* thumbdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumbdown.png; sourceTree = "<group>"; };
-		0B80B2541A0D1D8C0058073E /* thumbup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumbup.png; sourceTree = "<group>"; };
+		0BA0EC1E1A110E1C005AFE5B /* playbutton2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = playbutton2.jpeg; sourceTree = "<group>"; };
+		0BA0EC1F1A110E1C005AFE5B /* lineIcon.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lineIcon.jpeg; sourceTree = "<group>"; };
+		0BA0EC201A110E1C005AFE5B /* Thumbs-DownSmiley-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Thumbs-DownSmiley-icon.png"; sourceTree = "<group>"; };
+		0BA0EC211A110E1C005AFE5B /* previousIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = previousIcon.png; sourceTree = "<group>"; };
+		0BA0EC221A110E1C005AFE5B /* nextIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nextIcon.png; sourceTree = "<group>"; };
+		0BA0EC231A110E1C005AFE5B /* pauseIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pauseIcon.png; sourceTree = "<group>"; };
+		0BA0EC241A110E1C005AFE5B /* Thumbs-UpSmiley-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Thumbs-UpSmiley-icon.png"; sourceTree = "<group>"; };
+		0BA0EC251A110E1C005AFE5B /* settings icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings icon.png"; sourceTree = "<group>"; };
+		0BA0EC2E1A111726005AFE5B /* SearchDisplayTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchDisplayTableViewController.h; sourceTree = "<group>"; };
+		0BA0EC2F1A111726005AFE5B /* SearchDisplayTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchDisplayTableViewController.m; sourceTree = "<group>"; };
+		0BA0EC311A11184A005AFE5B /* Songs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Songs.h; sourceTree = "<group>"; };
+		0BA0EC321A11184A005AFE5B /* Songs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Songs.m; sourceTree = "<group>"; };
+		0BA0EC341A11187F005AFE5B /* SongTableCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongTableCellTableViewCell.h; sourceTree = "<group>"; };
+		0BA0EC351A11187F005AFE5B /* SongTableCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongTableCellTableViewCell.m; sourceTree = "<group>"; };
 		0BE2E1731A0C0829003CC782 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		0BE2E1741A0C0829003CC782 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		0BE2E1761A0C5238003CC782 /* UsersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersTableViewController.h; sourceTree = "<group>"; };
@@ -133,9 +154,15 @@
 		0B1F4EF21A0D1BAA0009027B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0BA0EC1E1A110E1C005AFE5B /* playbutton2.jpeg */,
+				0BA0EC1F1A110E1C005AFE5B /* lineIcon.jpeg */,
+				0BA0EC201A110E1C005AFE5B /* Thumbs-DownSmiley-icon.png */,
+				0BA0EC211A110E1C005AFE5B /* previousIcon.png */,
+				0BA0EC221A110E1C005AFE5B /* nextIcon.png */,
+				0BA0EC231A110E1C005AFE5B /* pauseIcon.png */,
+				0BA0EC241A110E1C005AFE5B /* Thumbs-UpSmiley-icon.png */,
+				0BA0EC251A110E1C005AFE5B /* settings icon.png */,
 				B1C53CAF1A070D9B00BEC2E4 /* ele-earth-icon.png */,
-				0B80B2531A0D1D8C0058073E /* thumbdown.png */,
-				0B80B2541A0D1D8C0058073E /* thumbup.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -162,6 +189,8 @@
 				B10C54941A044D9D00A92E62 /* JSLSonosViewController.m */,
 				0BE2E1761A0C5238003CC782 /* UsersTableViewController.h */,
 				0BE2E1771A0C5238003CC782 /* UsersTableViewController.m */,
+				0BA0EC2E1A111726005AFE5B /* SearchDisplayTableViewController.h */,
+				0BA0EC2F1A111726005AFE5B /* SearchDisplayTableViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -198,6 +227,10 @@
 				0BE2E1791A0C54BB003CC782 /* Main.storyboard */,
 				0BE2E1731A0C0829003CC782 /* User.h */,
 				0BE2E1741A0C0829003CC782 /* User.m */,
+				0BA0EC311A11184A005AFE5B /* Songs.h */,
+				0BA0EC321A11184A005AFE5B /* Songs.m */,
+				0BA0EC341A11187F005AFE5B /* SongTableCellTableViewCell.h */,
+				0BA0EC351A11187F005AFE5B /* SongTableCellTableViewCell.m */,
 				B10C547A1A041F7F00A92E62 /* Images.xcassets */,
 				B10C547C1A041F7F00A92E62 /* LaunchScreen.xib */,
 				0B1F4EF21A0D1BAA0009027B /* Images */,
@@ -345,11 +378,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B80B2551A0D1D8C0058073E /* thumbdown.png in Resources */,
+				0BA0EC2B1A110E1C005AFE5B /* pauseIcon.png in Resources */,
+				0BA0EC271A110E1C005AFE5B /* lineIcon.jpeg in Resources */,
+				0BA0EC261A110E1C005AFE5B /* playbutton2.jpeg in Resources */,
+				0BA0EC291A110E1C005AFE5B /* previousIcon.png in Resources */,
+				0BA0EC2D1A110E1C005AFE5B /* settings icon.png in Resources */,
 				B10C547E1A041F7F00A92E62 /* LaunchScreen.xib in Resources */,
-				0B80B2561A0D1D8C0058073E /* thumbup.png in Resources */,
 				0BE2E17B1A0C54BB003CC782 /* Main.storyboard in Resources */,
+				0BA0EC2A1A110E1C005AFE5B /* nextIcon.png in Resources */,
+				0BA0EC281A110E1C005AFE5B /* Thumbs-DownSmiley-icon.png in Resources */,
 				B1C53CB01A070D9B00BEC2E4 /* ele-earth-icon.png in Resources */,
+				0BA0EC2C1A110E1C005AFE5B /* Thumbs-UpSmiley-icon.png in Resources */,
 				0B580AD01A0BDC820019A6AC /* sonos_device_xml.xml in Resources */,
 				B10C547B1A041F7F00A92E62 /* Images.xcassets in Resources */,
 			);
@@ -402,16 +441,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BA0EC331A11184A005AFE5B /* Songs.m in Sources */,
 				0B3F48681A0B2F34008742F8 /* SonosController.m in Sources */,
 				0B3F486B1A0B2F34008742F8 /* XMLReader.m in Sources */,
 				B10C54951A044D9D00A92E62 /* JSLSonosViewController.m in Sources */,
 				0B3F48691A0B2F34008742F8 /* SonosDiscover.m in Sources */,
+				0BA0EC361A11187F005AFE5B /* SongTableCellTableViewCell.m in Sources */,
 				0BE2E1751A0C0829003CC782 /* User.m in Sources */,
 				0B3F486A1A0B2F34008742F8 /* SonosManager.m in Sources */,
 				B10C54731A041F7F00A92E62 /* AppDelegate.m in Sources */,
 				0BE2E1781A0C5238003CC782 /* UsersTableViewController.m in Sources */,
 				B10C54981A044EB800A92E62 /* UIView+FrameGetters.m in Sources */,
 				B10C54701A041F7F00A92E62 /* main.m in Sources */,
+				0BA0EC301A111726005AFE5B /* SearchDisplayTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
