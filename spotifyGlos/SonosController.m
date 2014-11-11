@@ -92,6 +92,36 @@
     }
 }
 
+- (void)play:(NSString *)track URIMetaData:(NSString *)URIMetaData completion:(void (^)(NSDictionary *reponse, NSError *error))block {
+    [self
+     upnp:@"/MediaRenderer/AVTransport/Control"
+     soap_service:@"urn:schemas-upnp-org:service:AVTransport:1"
+     soap_action:@"SetAVTransportURI"
+     soap_arguments:[NSString stringWithFormat:@"<InstanceID>0</InstanceID><CurrentURI>%@</CurrentURI><CurrentURIMetaData>%@</CurrentURIMetaData>", track, URIMetaData]
+     completion:^(id responseObject, NSError *error) {
+         [self play:nil completion:block];
+     }];
+}
+
+- (void)playSpotifyTrack:(NSString *)track completion:(void (^)(NSDictionary *reponse, NSError *error))block {
+    
+    NSString *trackEncoded = [track stringByReplacingOccurrencesOfString:@":" withString:@"%%3a"];
+    NSString *trackURI = [NSString stringWithFormat:@"x-sonos-spotify:%@?sid=12&amp;flags=32", trackEncoded];
+    
+    NSString *metaData = [NSString stringWithFormat:
+                          @"<DIDL-Lite xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:upnp=\"urn:schemas-upnp-org:metadata-1-0/upnp/\" xmlns:r\"urn:schemas-rinconnetworks-com:metadata-1-0\" xmlns=\"urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/\"> \
+                          <item id=\"10030020%@\" parentID=\"\" restricted=\"true\"> \
+                          <upnp:class>object.item.audioItem.musicTrack</upnp:class> \
+                          <desc id=\"cdudn\" nameSpace=\"urn:schemas-rinconnetworks-com:metadata-1-0/\">SA_RINCON2311_X_#Svc2311-0-Token</desc> \
+                          </item> \
+                          </DIDL-Lite>", trackEncoded];
+    
+    metaData = [[[metaData stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"] stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"] stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"];
+    
+    
+    [self play:trackURI URIMetaData:metaData completion:block];
+}
+
 - (void)pause:(void (^)(NSDictionary *, NSError *))block {
     [self
      upnp:@"/MediaRenderer/AVTransport/Control"

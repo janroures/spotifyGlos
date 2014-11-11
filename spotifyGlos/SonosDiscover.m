@@ -64,7 +64,7 @@ typedef void (^findDevicesBlock)(NSArray *ipAddresses);
     self.udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
     
     NSError *error = nil;
-    if(![self.udpSocket bindToPort:0 error:&error]) {
+    if(![self.udpSocket bindToPort:1400 error:&error]) {
         NSLog(@"Error binding");
     }
     

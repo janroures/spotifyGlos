@@ -23,15 +23,16 @@
 
 - (UILabel *)songLabel {
     if (_songLabel == nil) {
-        _songLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 3, 100, 20)];
+        _songLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 3, 300, 20)];
         _songLabel.font = [UIFont systemFontOfSize:15];
+        _songLabel.textColor = [UIColor purpleColor];
     }
     return _songLabel;
 }
 
 - (UILabel *)artistLabel {
     if (_artistLabel == nil) {
-        _artistLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 24, 100, 15)];
+        _artistLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 24, 300, 15)];
         _artistLabel.font = [UIFont systemFontOfSize:13];
     }
     return _artistLabel;

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9H4-Yr-VcT">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <scenes>
+        <!--Root View Controller-->
+        <scene sceneID="W1w-Ae-vOM">
+            <objects>
+                <tableViewController id="7Pj-rt-oq7" customClass="UsersTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="rcf-Nn-KcS">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="basicCell" textLabel="c9y-cJ-IBy" style="IBUITableViewCellStyleDefault" id="Lut-Ze-Iur">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Lut-Ze-Iur" id="LjZ-Fy-bIe">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="c9y-cJ-IBy">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="vXZ-lx-hvc" kind="show" id="tyT-Kl-JYQ"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="7Pj-rt-oq7" id="gFs-mt-QkE"/>
+                            <outlet property="delegate" destination="7Pj-rt-oq7" id="gtt-Cy-6s9"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="jOA-dJ-nUj"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eQ1-7r-uJ5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-192" y="373"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ibk-ig-T7X">
+            <objects>
+                <navigationController id="9H4-Yr-VcT" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DQp-vB-vsz">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="7Pj-rt-oq7" kind="relationship" relationship="rootViewController" id="okd-qH-e9k"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8CO-Vx-kpd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1012" y="373"/>
+        </scene>
+        <!--Sonos View Controller-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="JSLSonosViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
+                        <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="600" translatesAutoresizingMaskIntoConstraints="NO" id="87d-Bi-799">
+                                <rect key="frame" x="0.0" y="53" width="320" height="246"/>
+                            </imageView>
+                            <view contentMode="scaleAspectFit" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gYC-Pe-8sV">
+                                <rect key="frame" x="0.0" y="298" width="320" height="182"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zcq-y4-bC1">
+                                        <rect key="frame" x="92" y="93" width="44" height="44"/>
+                                        <state key="normal" image="previousIcon.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="previousSong:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="4PM-Up-svG"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3OK-Ho-djb">
+                                        <rect key="frame" x="8" y="80" width="65" height="65"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" none="YES" button="YES" image="YES"/>
+                                        </accessibility>
+                                        <state key="normal" image="Thumbs-DownSmiley-icon.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="voteDown:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="AmJ-9i-axl"/>
+                                        </connections>
+                                    </button>
+                                    <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="LLP-h3-dM0">
+                                        <rect key="frame" x="6" y="144" width="308" height="31"/>
+                                        <connections>
+                                            <action selector="volumeSlider:" destination="vXZ-lx-hvc" eventType="valueChanged" id="Wo0-VP-wbA"/>
+                                        </connections>
+                                    </slider>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BxO-Bn-p7E">
+                                        <rect key="frame" x="184" y="93" width="44" height="44"/>
+                                        <state key="normal" image="nextIcon.png">
+                                            <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="nextSong:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="bRZ-Lf-GD8"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fYy-42-R19">
+                                        <rect key="frame" x="0.0" y="34" width="320" height="21"/>
+                                        <accessibility key="accessibilityConfiguration" label=""/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kvf-a7-G7P">
+                                        <rect key="frame" x="0.0" y="8" width="320" height="26"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TgJ-pb-AEk">
+                                        <rect key="frame" x="247" y="80" width="65" height="65"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" none="YES" button="YES" image="YES"/>
+                                        </accessibility>
+                                        <state key="normal" image="Thumbs-UpSmiley-icon.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="voteUp:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="B4Q-Jt-zTl"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="chz-Ux-dlU">
+                                        <rect key="frame" x="106" y="63" width="106" height="22"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="showCurrentDeviceInfo:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="j5X-23-TgP"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UWU-Ag-Ogp">
+                                        <rect key="frame" x="46" y="108" width="27" height="27"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hSb-6C-x2M">
+                                        <rect key="frame" x="285" y="120" width="27" height="27"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rrs-d7-qUE">
+                                        <rect key="frame" x="138" y="93" width="44" height="44"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="playTrack:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="fjw-jk-OEw"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="nKx-Qd-CLi">
+                        <nil key="title"/>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="TfA-5o-Jd9">
+                            <textField key="customView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="search" textAlignment="right" minimumFontSize="17" id="CXp-v1-ZVk">
+                                <rect key="frame" x="204" y="7" width="200" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="albumArt" destination="87d-Bi-799" id="W4O-9o-T8v"/>
+                        <outlet property="artistNameLabel" destination="fYy-42-R19" id="6be-m4-yfJ"/>
+                        <outlet property="buttonContainer" destination="gYC-Pe-8sV" id="8xV-rq-8AY"/>
+                        <outlet property="nextSongButton" destination="BxO-Bn-p7E" id="06R-Kc-7fg"/>
+                        <outlet property="playButton" destination="rrs-d7-qUE" id="kFd-2H-8qV"/>
+                        <outlet property="previousSongButton" destination="zcq-y4-bC1" id="GGT-UN-Jci"/>
+                        <outlet property="searchDisplayController" destination="qKp-to-hoX" id="zCX-J9-PgJ"/>
+                        <outlet property="searchTextField" destination="CXp-v1-ZVk" id="1NS-dG-aZs"/>
+                        <outlet property="songNameLabel" destination="kvf-a7-G7P" id="zXW-wO-K0q"/>
+                        <outlet property="volumeSlider" destination="LLP-h3-dM0" id="1fI-eU-QJ6"/>
+                        <outlet property="voteDownButton" destination="3OK-Ho-djb" id="ffE-wX-GSh"/>
+                        <outlet property="voteUpButton" destination="TgJ-pb-AEk" id="U4D-Dz-n2c"/>
+                        <outlet property="votesDownLabel" destination="UWU-Ag-Ogp" id="22y-NK-gAL"/>
+                        <outlet property="votesUpLabel" destination="hSb-6C-x2M" id="rjB-hw-o3b"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="qKp-to-hoX">
+                    <connections>
+                        <outlet property="delegate" destination="vXZ-lx-hvc" id="aPv-Yr-mfL"/>
+                        <outlet property="searchContentsController" destination="vXZ-lx-hvc" id="mTw-LB-6pi"/>
+                        <outlet property="searchResultsDataSource" destination="vXZ-lx-hvc" id="vZH-LB-CgJ"/>
+                        <outlet property="searchResultsDelegate" destination="vXZ-lx-hvc" id="fw4-gn-B99"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="276" y="364"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Thumbs-DownSmiley-icon.png" width="128" height="128"/>
+        <image name="Thumbs-UpSmiley-icon.png" width="128" height="128"/>
+        <image name="nextIcon.png" width="225" height="225"/>
+        <image name="previousIcon.png" width="225" height="225"/>
+    </resources>
+</document>

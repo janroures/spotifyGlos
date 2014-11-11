@@ -84,6 +84,12 @@
     [self.view removeConstraints:self.view.constraints];
     [AutoAutoLayout reLayoutAllSubviewsFromBase:@"4s" forSubviewsOf:self.view];
     
+//CATransition for blocks
+    __block CATransition *animation = [CATransition animation];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.type = kCATransitionFade;
+    animation.duration = 0.75;
+    
 //Query for users who are not admins
     NSPredicate *predicate=[NSPredicate predicateWithFormat:@"isAdmin=%@", [NSNumber numberWithBool:NO]];
     PFQuery *query=[PFQuery queryWithClassName:@"Users" predicate:predicate];
@@ -95,7 +101,7 @@
     [self.reachabilityManager startMonitoring];
     [self.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         if (![AFNetworkReachabilityManager sharedManager].networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi ) {
-            NSLog(@"%d", status);
+            NSLog(@"%ld", status);
         }else{
             NSLog(@"You're on wifi");
         }
@@ -124,30 +130,42 @@
     //    self.currentDevice = [[SonosController alloc] initWithIP:currentDeviceInfo[@"ip"] port:1400 owner:self.currentUserObject];
     self.currentDevice = [[SonosController alloc] initWithIP:@"192.168.2.160" port:1400 owner:self.currentUserObject];
     [self.currentDevice getVolume:^(NSInteger currentVolume, NSError *err) {
+        [self.volumeSlider.layer addAnimation:animation forKey:@"kCATransitionFade"];
         self.volumeSlider.value=currentVolume;
     }];
     
 //Set up album art, song label, artist label
+    
     __block NSDictionary *blockDictionary = [[NSDictionary alloc] init];
     [self.currentDevice trackInfo:^(NSDictionary * returnData, NSError *error){
         if (!error) {
             blockDictionary = [NSDictionary dictionaryWithDictionary:returnData];
             self.currentSong = [NSMutableDictionary dictionaryWithDictionary:blockDictionary];
+            [self.songNameLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+            [self.artistNameLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+            [self.albumArt.layer addAnimation:animation forKey:@"kCATransitionFade"];
             self.songNameLabel.text = self.currentSong[@"MetaDataTitle"];
             self.artistNameLabel.text = self.currentSong[@"MetaDataCreator"];
             [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
+            NSLog(@"Track info: %@", self.currentSong);
         }else{
             NSLog(@"There was an error getting the current track\n\nThe errors: %@", error.localizedDescription);
         }
     }];
     NSLog(@"%@", [self.currentDevice class]);
     
+//    [self.currentDevice queue:@"x-sonos-spotify:spotify%3atrack%3a5Wa2HI33fErYRuAEHZJmf9" completion:^(NSDictionary *responseDict, NSError *err) {
+//        NSLog(@"Song added to queue: %@", responseDict);
+//    }];
+    
 //Set pause/play button image depending on the current song status
     [self.currentDevice status:^(NSDictionary *statusResult, NSError *error) {
         if ([statusResult[@"CurrentTransportState"] isEqual:@"PAUSED_PLAYBACK"] ) {
+            [self.playButton.layer addAnimation:animation forKey:@"kCATransitionFade"];
             [self.playButton setImage:[UIImage imageNamed:@"playbutton2.jpeg"] forState:UIControlStateNormal];
             NSLog(@"Paused");
         }else{
+            [self.playButton.layer addAnimation:animation forKey:@"kCATransitionFade"];
             [self.playButton setImage:[UIImage imageNamed:@"pauseIcon.png"] forState:UIControlStateNormal];
             NSLog(@"Playing");
         }
@@ -159,29 +177,39 @@
         self.nextSongButton.enabled=YES;
         self.previousSongButton.enabled=YES;
         self.volumeSlider.enabled=YES;
-        self.searchTextField.enabled=YES;
-        self.voteUpButton.enabled=NO;
-        self.voteDownButton.enabled=NO;
     }else{
         self.playButton.enabled=NO;
         self.nextSongButton.enabled=NO;
         self.previousSongButton.enabled=NO;
         self.volumeSlider.enabled=NO;
-        self.searchTextField.enabled=NO;
-        self.voteUpButton.enabled=YES;
-        self.voteDownButton.enabled=YES;
     }
     
 // Initialize the test songs array
     Songs *song1 = [Songs new];
-    song1.artist = @"Artist1";
-    song1.song = @"Song1";
+    song1.artist = @"Mick Jagger And David Bowie";
+    song1.song = @"Dancing In The Street";
     
     Songs *song2 = [Songs new];
-    song2.artist = @"Arist2";
-    song2.song = @"Song2";
+    song2.artist = @"Weird Al Yankovic";
+    song2.song = @"Dare to be Stupid";
     
-    self.songs = [NSArray arrayWithObjects: song1, song2, nil];
+    Songs *song3 = [Songs new];
+    song3.artist = @"Madonna";
+    song3.song = @"Dear Jessie";
+    
+    Songs *song4 = [Songs new];
+    song4.artist = @"Culture Club";
+    song4.song = @"Do You Really Want To Hurt Me?";
+
+    Songs *song5 = [Songs new];
+    song5.artist = @"The Police";
+    song5.song = @"Don't Stand So Close to Me - Original";
+    
+    Songs *song6 = [Songs new];
+    song6.artist = @"Bobby McFerrin";
+    song6.song = @"Don't Worry, Be Happy";
+    
+    self.songs = [NSArray arrayWithObjects: song1, song2, song3, song4, song5, song6, nil];
 
 //Query for user who is admin --set up vote labels
     NSPredicate *adminPredicate=[NSPredicate predicateWithFormat:@"isAdmin=%@", [NSNumber numberWithBool:YES]];
@@ -193,6 +221,11 @@
             self.votesDownLabel.text=[NSString stringWithFormat:@"%@", [retrievedAdmin objectForKey:@"receivedDownvotes"]];
         }
     }
+    
+//    [self.currentDevice playSpotifyTrack:@"spotify:track:5Wa2HI33fErYRuAEHZJmf9" completion:^(NSDictionary *reponse, NSError *error) {
+//        NSLog(@"%@", reponse);
+//    }];
+    
 //viewDidLoad ends
 }
 
@@ -403,6 +436,7 @@
     [currentAdmin setObject:[NSNumber numberWithBool:NO] forKey:@"isAdmin"];
     [newUserAdmin saveInBackground];
     [currentAdmin saveInBackground];
+    [self.view setNeedsDisplay];
     NSString *newAdminName=[NSString stringWithFormat:@"The new admin is %@", [newUserAdmin objectForKey:@"name"]];
     RNBlurModalView *modal = [[RNBlurModalView alloc] initWithViewController:self title:@"New admin!" message:newAdminName];
     [modal show];
@@ -423,29 +457,20 @@
     }
 }
 
-- (IBAction)showDeviceInfo:(id)sender {
-    // NSLog(@"%@", self.sonosManager.allDevices);
-    //NSDictionary *currentDeviceInfo = [NSDictionary dictionaryWithDictionary:self.sonosManager.allDevices[0]];
-    //NSLog(@"%@", currentDeviceInfo);
-    //self.currentDevice = [[SonosController alloc] initWithIP:currentDeviceInfo[@"ip"]];
-    
-    // can use the commented out stuff above to get the info; i just pulled out the specific IP
-    // for "Soundwall" because the controller randomly assigns the 2 devices it finds in an array
-}
 //used to get the current song and set it to self.currentsong
 - (IBAction)showCurrentDeviceInfo:(id)sender {
-    /***********************************************************************************
-     *                                                                                 *
-     *  Had to add a new conditional in SonosController.m to account for Pandora radio *
-     *  which is what I had been using to test. The conditional adds dictionary data   *
-     *  so that I can pull album art.                                                  *
-     *                                                                                 *
-     ***********************************************************************************/
+    __block CATransition *animation = [CATransition animation];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.type = kCATransitionFade;
+    animation.duration = 0.75;
     __block NSDictionary *blockDictionary = [[NSDictionary alloc] init];
     [self.currentDevice trackInfo:^(NSDictionary * returnData, NSError *error){
         if (!error) {
             blockDictionary = [NSDictionary dictionaryWithDictionary:returnData];
             self.currentSong = [NSMutableDictionary dictionaryWithDictionary:blockDictionary];
+            [self.songNameLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+            [self.artistNameLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+            [self.albumArt.layer addAnimation:animation forKey:@"kCATransitionFade"];
             self.songNameLabel.text = self.currentSong[@"MetaDataTitle"];
             self.artistNameLabel.text = self.currentSong[@"MetaDataCreator"];
             [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
@@ -456,24 +481,18 @@
 }
 
 - (IBAction)playTrack:(id)sender {
-    //    NSError *err = nil;
-    //    NSString *songTitle = self.currentSong[@"MetaDataTitle"];
-    //    NSURL *songURL = [NSURL URLWithString:self.currentSong[@"TrackURI"]];
-    //    NSString *songStringFromURL=[NSString stringWithContentsOfURL:songURL encoding:NSUTF8StringEncoding error:&err];
-    //    NSLog(@"the song: %@ and URI: %@ and SongString: %@", songTitle, songURL ,songStringFromURL);
-    
     //checks the current device status and plays/pauses the song depending on the status
     [self.currentDevice status:^(NSDictionary *statusResult, NSError *error) {
         if ([statusResult[@"CurrentTransportState"] isEqual:@"PAUSED_PLAYBACK"] ) {
-            [self.currentDevice play:self.currentSong[@"TrackURI"] completion:^(NSDictionary *result, NSError *err) {
-                [self.playButton setImage:[UIImage imageNamed:@"playbutton2.jpeg"] forState:UIControlStateNormal];
-                [self.view setNeedsDisplay];
+            [self.currentDevice play:@"x-sonos-spotify:spotify:track:spotify%3Atrack%3A5Wa2HI33fErYRuAEHZJmf9?sid=12&flags=32" completion:^(NSDictionary *result, NSError *err) {
+                [self.playButton setImage:[UIImage imageNamed:@"playbutton2.jpeg"] forState:UIControlStateSelected];
+//                 setImage:[UIImage imageNamed:@"playbutton2.jpeg"] forState:UIControlStateNormal];
                 NSLog(@"Playing");
             }];
         }else{
             [self.currentDevice pause:^(NSDictionary *result, NSError *err) {
-                [self.playButton setImage:[UIImage imageNamed:@"pauseIcon.png"] forState:UIControlStateNormal];
-                [self.view setNeedsDisplay];
+                [self.playButton setImage:[UIImage imageNamed:@"pauseIcon"] forState:UIControlStateSelected];
+//                 setImage:[UIImage imageNamed:@"pauseIcon.png"] forState:UIControlStateNormal];
                 NSLog(@"Paused");
             }];
         }
@@ -489,14 +508,21 @@
             [currentObject setValue:@0 forKey:@"hasVoted"];
             [currentObject saveInBackground];
         }
+        __block CATransition *animation = [CATransition animation];
+        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        animation.type = kCATransitionFade;
+        animation.duration = 0.75;
         __block NSDictionary *blockDictionary = [[NSDictionary alloc] init];
         [self.currentDevice trackInfo:^(NSDictionary * returnData, NSError *error){
             if (!error) {
                 blockDictionary = [NSDictionary dictionaryWithDictionary:returnData];
                 self.currentSong = [NSMutableDictionary dictionaryWithDictionary:blockDictionary];
+                [self.songNameLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+                [self.artistNameLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+                [self.albumArt.layer addAnimation:animation forKey:@"kCATransitionFade"];
                 self.songNameLabel.text = self.currentSong[@"MetaDataTitle"];
                 self.artistNameLabel.text = self.currentSong[@"MetaDataCreator"];
-                [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]] placeholderImage:[UIImage imageNamed:@"ele-earth-icon"]];
+                [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
             }else{
                 NSLog(@"There was an error getting the current track\n\nThe errors: %@", error.localizedDescription);
             }
@@ -514,14 +540,21 @@
             [currentObject setValue:@0 forKey:@"hasVoted"];
             [currentObject saveInBackground];
         }
+        __block CATransition *animation = [CATransition animation];
+        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        animation.type = kCATransitionFade;
+        animation.duration = 0.75;
         __block NSDictionary *blockDictionary = [[NSDictionary alloc] init];
         [self.currentDevice trackInfo:^(NSDictionary * returnData, NSError *error){
             if (!error) {
                 blockDictionary = [NSDictionary dictionaryWithDictionary:returnData];
                 self.currentSong = [NSMutableDictionary dictionaryWithDictionary:blockDictionary];
+                [self.songNameLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+                [self.artistNameLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+                [self.albumArt.layer addAnimation:animation forKey:@"kCATransitionFade"];
                 self.songNameLabel.text = self.currentSong[@"MetaDataTitle"];
                 self.artistNameLabel.text = self.currentSong[@"MetaDataCreator"];
-                [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]] placeholderImage:[UIImage imageNamed:@"ele-earth-icon"]];
+                [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
             }else{
                 NSLog(@"There was an error getting the current track\n\nThe errors: %@", error.localizedDescription);
             }
@@ -548,8 +581,13 @@
             }
         }
     }else{
-        RNBlurModalView *modal = [[RNBlurModalView alloc] initWithViewController:self title:@"Invalid vote!" message:@"You already voted for this song!"];
-        [modal show];
+        if ([[self.currentUserObject objectForKey:@"isAdmin"]isEqual:@1]) {
+            RNBlurModalView *modal = [[RNBlurModalView alloc] initWithViewController:self title:@"Invalid vote!" message:@"You can't vote yourself!"];
+            [modal show];
+        }else{
+            RNBlurModalView *modal = [[RNBlurModalView alloc] initWithViewController:self title:@"Invalid vote!" message:@"You already voted for this song!"];
+            [modal show];
+        }
     }
 }
 
@@ -566,8 +604,13 @@
             }
         }
     }else{
-        RNBlurModalView *modal = [[RNBlurModalView alloc] initWithViewController:self title:@"Invalid vote!" message:@"You already voted for this song!"];
-        [modal show];
+        if ([[self.currentUserObject objectForKey:@"isAdmin"]isEqual:@1]) {
+            RNBlurModalView *modal = [[RNBlurModalView alloc] initWithViewController:self title:@"Invalid vote!" message:@"You can't vote yourself!"];
+            [modal show];
+        }else{
+            RNBlurModalView *modal = [[RNBlurModalView alloc] initWithViewController:self title:@"Invalid vote!" message:@"You already voted for this song!"];
+            [modal show];
+        }
     }
 }
 

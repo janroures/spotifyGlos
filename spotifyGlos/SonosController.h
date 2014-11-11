@@ -63,6 +63,10 @@
  @param block Objective-C block to call on finish
  */
 - (void)play:(NSString *)track completion:(void (^)(NSDictionary *, NSError *))block;
+- (void)play:(NSString *)track URIMetaData:(NSString *)URIMetaData completion:(void (^)(NSDictionary *reponse, NSError *error))block;
+
+- (void)playSpotifyTrack:(NSString *)track completion:(void (^)(NSDictionary *reponse, NSError *error))block;
+
 
 /**
  Pause playback
