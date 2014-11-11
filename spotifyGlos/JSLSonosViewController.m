@@ -80,6 +80,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationController.navigationBarHidden=NO;
+
+    
 //Auto Auto-layout
     [self.view removeConstraints:self.view.constraints];
     [AutoAutoLayout reLayoutAllSubviewsFromBase:@"4s" forSubviewsOf:self.view];
@@ -146,8 +149,15 @@
             [self.albumArt.layer addAnimation:animation forKey:@"kCATransitionFade"];
             self.songNameLabel.text = self.currentSong[@"MetaDataTitle"];
             self.artistNameLabel.text = self.currentSong[@"MetaDataCreator"];
-            [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
-            NSLog(@"Track info: %@", self.currentSong);
+//            [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
+            NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
+            [self.albumArt setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                self.albumArt.image = image;
+                NSLog(@"Success");
+            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
+            }];
+            NSLog(@"Album Art URI view controller: %@", self.currentSong[@"MetaDataAlbumArtURI"]);
         }else{
             NSLog(@"There was an error getting the current track\n\nThe errors: %@", error.localizedDescription);
         }
@@ -437,8 +447,8 @@
     [newUserAdmin saveInBackground];
     [currentAdmin saveInBackground];
     [self.view setNeedsDisplay];
-    NSString *newAdminName=[NSString stringWithFormat:@"The new admin is %@", [newUserAdmin objectForKey:@"name"]];
-    RNBlurModalView *modal = [[RNBlurModalView alloc] initWithViewController:self title:@"New admin!" message:newAdminName];
+    NSString *newAdminName=[NSString stringWithFormat:@"The new master is %@", [newUserAdmin objectForKey:@"name"]];
+    RNBlurModalView *modal = [[RNBlurModalView alloc] initWithViewController:self title:@"New master!" message:newAdminName];
     [modal show];
 }
 
@@ -473,8 +483,13 @@
             [self.albumArt.layer addAnimation:animation forKey:@"kCATransitionFade"];
             self.songNameLabel.text = self.currentSong[@"MetaDataTitle"];
             self.artistNameLabel.text = self.currentSong[@"MetaDataCreator"];
-            [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
-        }else{
+            NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
+            [self.albumArt setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                self.albumArt.image = image;
+                NSLog(@"Success");
+            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
+            }];        }else{
             NSLog(@"There was an error getting the current track\n\nThe errors: %@", error.localizedDescription);
         }
     }];
@@ -522,7 +537,13 @@
                 [self.albumArt.layer addAnimation:animation forKey:@"kCATransitionFade"];
                 self.songNameLabel.text = self.currentSong[@"MetaDataTitle"];
                 self.artistNameLabel.text = self.currentSong[@"MetaDataCreator"];
-                [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
+                NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
+                [self.albumArt setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                    self.albumArt.image = image;
+                    NSLog(@"Success");
+                } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                    [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
+                }];
             }else{
                 NSLog(@"There was an error getting the current track\n\nThe errors: %@", error.localizedDescription);
             }
@@ -554,7 +575,13 @@
                 [self.albumArt.layer addAnimation:animation forKey:@"kCATransitionFade"];
                 self.songNameLabel.text = self.currentSong[@"MetaDataTitle"];
                 self.artistNameLabel.text = self.currentSong[@"MetaDataCreator"];
-                [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
+                NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
+                [self.albumArt setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                    self.albumArt.image = image;
+                    NSLog(@"Success");
+                } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                    [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
+                }];
             }else{
                 NSLog(@"There was an error getting the current track\n\nThe errors: %@", error.localizedDescription);
             }

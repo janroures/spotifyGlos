@@ -111,7 +111,7 @@
  @param volume The volume (0-100)
  @param block Objective-C block to call on finish
  */
-- (void)setVolume:(int)volume completion:(void (^)(NSDictionary *, NSError *))block;
+- (void)setVolume:(NSInteger)volume completion:(void (^)(NSDictionary *, NSError *))block;
 
 /**
  Get mute status

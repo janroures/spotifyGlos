@@ -22,12 +22,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationController.navigationBarHidden=NO;
     PFQuery *query = [PFQuery queryWithClassName:@"Users"];
     self.usersArray=[NSMutableArray arrayWithArray:[query findObjects]];
     for (PFObject *object in self.usersArray) {
         if ([[object objectForKey:@"isAdmin"]isEqual:@1]) {
-            NSString *currentAdminName=[NSString stringWithFormat:@"The current admin is %@", [object objectForKey:@"name"]];
-            RNBlurModalView *alertView=[[RNBlurModalView alloc]initWithTitle:@"Current admin" message:currentAdminName];
+            NSString *currentAdminName=[NSString stringWithFormat:@"The current master is %@", [object objectForKey:@"name"]];
+            RNBlurModalView *alertView=[[RNBlurModalView alloc]initWithTitle:@"Sonos Master" message:currentAdminName];
             [alertView show];
         }
     }

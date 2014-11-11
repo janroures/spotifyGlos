@@ -54,17 +54,17 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="7Pj-rt-oq7" kind="relationship" relationship="rootViewController" id="okd-qH-e9k"/>
+                        <segue destination="kcH-Um-n4S" kind="relationship" relationship="rootViewController" id="cPe-Gd-sie"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8CO-Vx-kpd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1012" y="373"/>
+            <point key="canvasLocation" x="-1074" y="381"/>
         </scene>
-        <!--View Controller-->
+        <!--Login Page View Controller-->
         <scene sceneID="3Lb-AN-Fxh">
             <objects>
-                <viewController id="kcH-Um-n4S" sceneMemberID="viewController">
+                <viewController id="kcH-Um-n4S" customClass="LoginPageViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="CJQ-Sk-Tym"/>
                         <viewControllerLayoutGuide type="bottom" id="sLF-op-21G"/>
@@ -73,14 +73,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" alpha="0.19999999999999968" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="musical notes.png" translatesAutoresizingMaskIntoConstraints="NO" id="hXD-mF-TBU">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="210"/>
-                            </imageView>
                             <imageView userInteractionEnabled="NO" alpha="0.20000000298023224" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="musical notes.png" translatesAutoresizingMaskIntoConstraints="NO" id="f1P-S0-ENA">
-                                <rect key="frame" x="0.0" y="212" width="320" height="210"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="273"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YzU-rU-abk">
                                 <rect key="frame" x="66" y="194" width="188" height="21"/>
+                                <color key="tintColor" white="0.40000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                                 <attributedString key="attributedText">
                                     <fragment content="making your voice heard">
                                         <attributes>
@@ -95,12 +93,34 @@
                             <imageView userInteractionEnabled="NO" alpha="0.59999999999999964" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ironVoteIcon.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Keb-Qs-PAX">
                                 <rect key="frame" x="40" y="58" width="240" height="128"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="microphone3.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="IQG-kZ-3qY">
-                                <rect key="frame" x="-89" y="228" width="337" height="252"/>
+                            <imageView userInteractionEnabled="NO" alpha="0.39999999999999963" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="microphone3.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="IQG-kZ-3qY">
+                                <rect key="frame" x="-107" y="265" width="337" height="215"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9LM-s5-Dtj">
+                                <rect key="frame" x="161" y="311" width="129" height="45"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <color key="tintColor" red="0.0" green="8.2014513730000005e-05" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Join">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <segue destination="7Pj-rt-oq7" kind="show" id="mGX-hz-2Rv"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" alpha="0.20000000298023224" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="musical notes.png" translatesAutoresizingMaskIntoConstraints="NO" id="QGI-fC-FLq">
+                                <rect key="frame" x="0.0" y="273" width="320" height="246"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="9cy-OC-7sX"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KjF-KI-Olr" userLabel="First Responder" sceneMemberID="firstResponder"/>

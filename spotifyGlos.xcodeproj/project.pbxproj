@@ -31,6 +31,9 @@
 		0B3F486A1A0B2F34008742F8 /* SonosManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F48651A0B2F34008742F8 /* SonosManager.m */; };
 		0B3F486B1A0B2F34008742F8 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F48671A0B2F34008742F8 /* XMLReader.m */; };
 		0B4083761A12598C00A090A6 /* ironVoteIcon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B4083751A12598C00A090A6 /* ironVoteIcon.jpg */; };
+		0B4083791A128D7700A090A6 /* LoginPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B4083781A128D7700A090A6 /* LoginPageViewController.m */; };
+		0B40837C1A128EC700A090A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B40837A1A128EC700A090A6 /* Main.storyboard */; };
+		0B40837E1A1291EF00A090A6 /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B40837D1A1291EF00A090A6 /* Spotify.framework */; };
 		0B580AD01A0BDC820019A6AC /* sonos_device_xml.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0B580ACF1A0BDC820019A6AC /* sonos_device_xml.xml */; };
 		0BA0EC261A110E1C005AFE5B /* playbutton2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 0BA0EC1E1A110E1C005AFE5B /* playbutton2.jpeg */; };
 		0BA0EC271A110E1C005AFE5B /* lineIcon.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 0BA0EC1F1A110E1C005AFE5B /* lineIcon.jpeg */; };
@@ -45,7 +48,6 @@
 		0BA0EC361A11187F005AFE5B /* SongTableCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0EC351A11187F005AFE5B /* SongTableCellTableViewCell.m */; };
 		0BE2E1751A0C0829003CC782 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE2E1741A0C0829003CC782 /* User.m */; };
 		0BE2E1781A0C5238003CC782 /* UsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE2E1771A0C5238003CC782 /* UsersTableViewController.m */; };
-		0BE2E17B1A0C54BB003CC782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BE2E1791A0C54BB003CC782 /* Main.storyboard */; };
 		0BFDEABD1A11C9D400ED11D7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BFDEABC1A11C9D400ED11D7 /* LaunchScreen.xib */; };
 		B10C54701A041F7F00A92E62 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B10C546F1A041F7F00A92E62 /* main.m */; };
 		B10C54731A041F7F00A92E62 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B10C54721A041F7F00A92E62 /* AppDelegate.m */; };
@@ -96,6 +98,10 @@
 		0B3F48661A0B2F34008742F8 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
 		0B3F48671A0B2F34008742F8 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
 		0B4083751A12598C00A090A6 /* ironVoteIcon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ironVoteIcon.jpg; sourceTree = "<group>"; };
+		0B4083771A128D7700A090A6 /* LoginPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginPageViewController.h; sourceTree = "<group>"; };
+		0B4083781A128D7700A090A6 /* LoginPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginPageViewController.m; sourceTree = "<group>"; };
+		0B40837B1A128EC700A090A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0B40837D1A1291EF00A090A6 /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Spotify.framework; sourceTree = "<group>"; };
 		0B580ACF1A0BDC820019A6AC /* sonos_device_xml.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sonos_device_xml.xml; sourceTree = "<group>"; };
 		0BA0EC1E1A110E1C005AFE5B /* playbutton2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = playbutton2.jpeg; sourceTree = "<group>"; };
 		0BA0EC1F1A110E1C005AFE5B /* lineIcon.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lineIcon.jpeg; sourceTree = "<group>"; };
@@ -115,7 +121,6 @@
 		0BE2E1741A0C0829003CC782 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		0BE2E1761A0C5238003CC782 /* UsersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersTableViewController.h; sourceTree = "<group>"; };
 		0BE2E1771A0C5238003CC782 /* UsersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsersTableViewController.m; sourceTree = "<group>"; };
-		0BE2E17A1A0C54BB003CC782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0BFDEABC1A11C9D400ED11D7 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		1E5F2E688A1B134E904E5383 /* libPods-spotifyGlos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-spotifyGlos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		77C6430A8419424EDA0BDDDB /* Pods-spotifyGlos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-spotifyGlos.release.xcconfig"; path = "Pods/Target Support Files/Pods-spotifyGlos/Pods-spotifyGlos.release.xcconfig"; sourceTree = "<group>"; };
@@ -150,6 +155,7 @@
 				0B3F48571A0B2BDC008742F8 /* QuartzCore.framework in Frameworks */,
 				0B3F48581A0B2BDC008742F8 /* Security.framework in Frameworks */,
 				0B3F48591A0B2BDC008742F8 /* StoreKit.framework in Frameworks */,
+				0B40837E1A1291EF00A090A6 /* Spotify.framework in Frameworks */,
 				0B3F485A1A0B2BDC008742F8 /* SystemConfiguration.framework in Frameworks */,
 				0B3F48461A0B2B99008742F8 /* Bolts.framework in Frameworks */,
 				0B3F48441A0B2B8D008742F8 /* Parse.framework in Frameworks */,
@@ -212,6 +218,8 @@
 			children = (
 				B10C54931A044D9D00A92E62 /* JSLSonosViewController.h */,
 				B10C54941A044D9D00A92E62 /* JSLSonosViewController.m */,
+				0B4083771A128D7700A090A6 /* LoginPageViewController.h */,
+				0B4083781A128D7700A090A6 /* LoginPageViewController.m */,
 				0BE2E1761A0C5238003CC782 /* UsersTableViewController.h */,
 				0BE2E1771A0C5238003CC782 /* UsersTableViewController.m */,
 				0BA0EC2E1A111726005AFE5B /* SearchDisplayTableViewController.h */,
@@ -246,10 +254,10 @@
 				0BED34691A0D311600A36313 /* Sonos pod */,
 				0BED346A1A0D313D00A36313 /* View Controllers */,
 				B10C54721A041F7F00A92E62 /* AppDelegate.m */,
+				0B40837A1A128EC700A090A6 /* Main.storyboard */,
 				B10C54711A041F7F00A92E62 /* AppDelegate.h */,
 				B10C54961A044EB800A92E62 /* UIView+FrameGetters.h */,
 				B10C54971A044EB800A92E62 /* UIView+FrameGetters.m */,
-				0BE2E1791A0C54BB003CC782 /* Main.storyboard */,
 				0BE2E1731A0C0829003CC782 /* User.h */,
 				0BE2E1741A0C0829003CC782 /* User.m */,
 				0BA0EC311A11184A005AFE5B /* Songs.h */,
@@ -293,6 +301,7 @@
 		E09F0206E06ACC903CB51DEE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0B40837D1A1291EF00A090A6 /* Spotify.framework */,
 				0B3F48471A0B2BDC008742F8 /* AudioToolbox.framework */,
 				0B3F48481A0B2BDC008742F8 /* CFNetwork.framework */,
 				0B3F48491A0B2BDC008742F8 /* CoreGraphics.framework */,
@@ -402,6 +411,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B40837C1A128EC700A090A6 /* Main.storyboard in Resources */,
 				0BA0EC2B1A110E1C005AFE5B /* pauseIcon.png in Resources */,
 				0B275DF31A11CB2B0085D060 /* rainbowHeadphone.jpg in Resources */,
 				0BA0EC271A110E1C005AFE5B /* lineIcon.jpeg in Resources */,
@@ -409,7 +419,6 @@
 				0BA0EC291A110E1C005AFE5B /* previousIcon.png in Resources */,
 				0BA0EC2D1A110E1C005AFE5B /* settings icon.png in Resources */,
 				0B275DEE1A11CB1E0085D060 /* microphone3.jpg in Resources */,
-				0BE2E17B1A0C54BB003CC782 /* Main.storyboard in Resources */,
 				0B275DF01A11CB1E0085D060 /* musical notes.png in Resources */,
 				0B275DE71A11CB0C0085D060 /* colorful guitar.jpg in Resources */,
 				0BA0EC2A1A110E1C005AFE5B /* nextIcon.png in Resources */,
@@ -478,6 +487,7 @@
 				0B3F486B1A0B2F34008742F8 /* XMLReader.m in Sources */,
 				B10C54951A044D9D00A92E62 /* JSLSonosViewController.m in Sources */,
 				0B3F48691A0B2F34008742F8 /* SonosDiscover.m in Sources */,
+				0B4083791A128D7700A090A6 /* LoginPageViewController.m in Sources */,
 				0BA0EC361A11187F005AFE5B /* SongTableCellTableViewCell.m in Sources */,
 				0BE2E1751A0C0829003CC782 /* User.m in Sources */,
 				0B3F486A1A0B2F34008742F8 /* SonosManager.m in Sources */,
@@ -508,10 +518,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		0BE2E1791A0C54BB003CC782 /* Main.storyboard */ = {
+		0B40837A1A128EC700A090A6 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				0BE2E17A1A0C54BB003CC782 /* Base */,
+				0B40837B1A128EC700A090A6 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

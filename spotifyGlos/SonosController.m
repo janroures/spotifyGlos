@@ -10,6 +10,7 @@
 #import "AFNetworking.h"
 #import "XMLReader.h"
 #import "User.h"
+#import <Spotify/Spotify.h>
 
 @interface SonosController()
 - (void)upnp:(NSString *)url soap_service:(NSString *)soap_service soap_action:(NSString *)soap_action soap_arguments:(NSString *)soap_arguments completion:(void (^)(NSDictionary *, NSError *))block;
@@ -178,7 +179,7 @@
      upnp:@"/MediaRenderer/RenderingControl/Control"
      soap_service:@"urn:schemas-upnp-org:service:RenderingControl:1"
      soap_action:@"SetVolume"
-     soap_arguments:[NSString stringWithFormat:@"<InstanceID>0</InstanceID><Channel>Master</Channel><DesiredVolume>%d</DesiredVolume>", volume]
+     soap_arguments:[NSString stringWithFormat:@"<InstanceID>0</InstanceID><Channel>Master</Channel><DesiredVolume>%ld</DesiredVolume>", (long)volume]
      completion:block];
 }
 
@@ -229,18 +230,46 @@
          // Find metadata about streaming content
          if(responseXML[@"s:Envelope"][@"s:Body"][@"u:GetPositionInfoResponse"][@"TrackMetaData"][@"text"] != nil) {
              NSDictionary *trackMetaData = [XMLReader dictionaryForXMLString:responseXML[@"s:Envelope"][@"s:Body"][@"u:GetPositionInfoResponse"][@"TrackMetaData"][@"text"] error:nil];
+//             NSLog(@"Track metadata: %@", trackMetaData);
              
              // Figure out what kind of data is playing
              
              // Spotify:
              if([trackMetaData[@"DIDL-Lite"][@"item"][@"res"][@"protocolInfo"] isEqualToString:@"sonos.com-spotify:*:audio/x-spotify:*"]) {
-                 [returnData addEntriesFromDictionary:@{
-                                                        @"MetaDataCreator" : trackMetaData[@"DIDL-Lite"][@"item"][@"dc:creator"][@"text"],
-                                                        @"MetaDataTitle" : trackMetaData[@"DIDL-Lite"][@"item"][@"dc:title"][@"text"],
-                                                        @"MetaDataAlbum" : trackMetaData[@"DIDL-Lite"][@"item"][@"upnp:album"][@"text"],
-                                                        @"MetaDataAlbumArtURI" : trackMetaData[@"DIDL-Lite"][@"item"][@"upnp:albumArtURI"][@"text"]
-                                                        }];
                  
+                 NSString *totalString=trackMetaData[@"DIDL-Lite"][@"item"][@"res"][@"text"];
+                 NSString *newString=[[[totalString stringByReplacingOccurrencesOfString:@"x-sonos-spotify:" withString:@""] stringByReplacingOccurrencesOfString:@"%3a" withString:@":"]stringByReplacingOccurrencesOfString:@"?sid=12&flags=32" withString:@""];
+                 NSString *trackURIString=[newString stringByReplacingOccurrencesOfString:@"spotify:track:" withString:@""];
+                 
+                 
+                 //Set up the API Request
+                 NSURLSession *session = [NSURLSession sharedSession];
+                 NSString *URLString=[NSString stringWithFormat:@"https://api.spotify.com/v1/tracks/%@", trackURIString];
+                 NSURL *spotifyGetURL = [NSURL URLWithString:URLString];
+                 
+                 NSURLSessionDataTask *get = [session dataTaskWithURL:spotifyGetURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                     
+                     NSLog(@"Response: %@", response);
+                     // Everytime we pull data from the API, we remove the data in Core data
+                     
+                     // Convert the JSON received from the API into an NSArray (of NSDictionaries)
+                     NSDictionary *downloadedSongInfo = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                     
+                     [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+                         
+                         [returnData addEntriesFromDictionary:@{@"MetaDataAlbumArtURI" : downloadedSongInfo[@"album"][@"images"][0][@"url"]}];
+                        
+                         block(returnData, error);
+                    }];
+                 }];
+                 [returnData addEntriesFromDictionary:@{
+                                                            @"MetaDataCreator" : trackMetaData[@"DIDL-Lite"][@"item"][@"dc:creator"][@"text"],
+                                                            @"MetaDataTitle" : trackMetaData[@"DIDL-Lite"][@"item"][@"dc:title"][@"text"],
+                                                            @"MetaDataAlbum" : trackMetaData[@"DIDL-Lite"][@"item"][@"upnp:album"][@"text"]
+                                                            }];
+
+                 [get resume];
+             
              }
              
              // Pandora:
