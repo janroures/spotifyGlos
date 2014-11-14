@@ -489,7 +489,15 @@
                 NSLog(@"Success");
             } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                 [self.albumArt setImageWithURL:[NSURL URLWithString:self.currentSong[@"MetaDataAlbumArtURI"]]];
-            }];        }else{
+            }];
+            [self.currentDevice status:^(NSDictionary *statusResult, NSError *error) {
+                if ([statusResult[@"CurrentTransportState"] isEqual:@"PAUSED_PLAYBACK"] ) {
+                    [self.playButton setImage:[UIImage imageNamed:@"playbutton2.jpeg"] forState:UIControlStateNormal];
+                }else{
+                    [self.playButton setImage:[UIImage imageNamed:@"pauseIcon.png"] forState:UIControlStateNormal];
+                }
+            }];
+        }else{
             NSLog(@"There was an error getting the current track\n\nThe errors: %@", error.localizedDescription);
         }
     }];
