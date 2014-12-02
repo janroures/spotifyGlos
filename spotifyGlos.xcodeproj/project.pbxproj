@@ -135,7 +135,7 @@
 		B10C54881A041F7F00A92E62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B10C54891A041F7F00A92E62 /* spotifyGlosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = spotifyGlosTests.m; sourceTree = "<group>"; };
 		B10C54931A044D9D00A92E62 /* JSLSonosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSLSonosViewController.h; sourceTree = "<group>"; };
-		B10C54941A044D9D00A92E62 /* JSLSonosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSLSonosViewController.m; sourceTree = "<group>"; };
+		B10C54941A044D9D00A92E62 /* JSLSonosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 3; lastKnownFileType = sourcecode.c.objc; path = JSLSonosViewController.m; sourceTree = "<group>"; };
 		B10C54961A044EB800A92E62 /* UIView+FrameGetters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FrameGetters.h"; sourceTree = "<group>"; };
 		B10C54971A044EB800A92E62 /* UIView+FrameGetters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FrameGetters.m"; sourceTree = "<group>"; };
 		B1C53CAF1A070D9B00BEC2E4 /* ele-earth-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ele-earth-icon.png"; sourceTree = "<group>"; };
@@ -379,7 +379,6 @@
 				TargetAttributes = {
 					B10C54691A041F7F00A92E62 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = 2XFC85G99P;
 					};
 					B10C54821A041F7F00A92E62 = {
 						CreatedOnToolsVersion = 6.0.1;
