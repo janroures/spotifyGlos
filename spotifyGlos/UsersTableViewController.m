@@ -10,11 +10,22 @@
 #import "User.h"
 #import "SonosController.h"
 #import "JSLSonosViewController.h"
+#import <AFNetworking/AFNetworking.h>
 #import <RNBlurModalView.h>
+#import "AppDelegate.h"
 
-@interface UsersTableViewController ()
+static NSString * const kSpotifyAccountType =@"spotify";
+static NSString * const kSpotifyClientSecret = @"ea449fa4da8044ad8bcf67e58c30934a";
+static NSString * const kSpotifyClientID = @"b1888b168ab341f19b1b6a3e257f76d9";
+
+NSString * const kSpotifyCurrentUserQueryURL = @"https://api.spotify.com/v1/me";
+
+@interface UsersTableViewController () <UIApplicationDelegate>
 
 @property(strong,nonatomic)NSMutableArray *usersArray;
+
+@property(strong,nonatomic)NSString * spotifyToken;
+@property(strong,nonatomic)NSString * spotifyUser;
 
 @end
 
@@ -22,7 +33,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.navigationController.navigationBarHidden=NO;
+
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getTheTokenFromAppDelegate) name:@"tokenReady"  object:nil];
+    
+    
     PFQuery *query = [PFQuery queryWithClassName:@"Users"];
     self.usersArray=[NSMutableArray arrayWithArray:[query findObjects]];
     for (PFObject *object in self.usersArray) {
@@ -34,7 +51,36 @@
     }
 }
 
+-(void) getTheTokenFromAppDelegate{
+    
+    self.spotifyToken = [AppDelegate getToken];
+    AFHTTPSessionManager *getUserSession = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:kSpotifyCurrentUserQueryURL]];
+    AFJSONResponseSerializer *jsonDataPlease = [AFJSONResponseSerializer serializer];
+    [getUserSession setResponseSerializer:jsonDataPlease];
+    
+    NSDictionary *parameters = @{ @"Authorization":self.spotifyToken};
+    NSURLSessionDataTask *dataTask = [getUserSession GET:@"" parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"RESPONSE: %@", responseObject);
+        
+        //NSLog(@"current user: %@", self.spotifyUser);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"NOT FOUND USER");
+    }];
+    [dataTask resume];
+    
+}
+
+-(void)applicationDidBecomeActive:(UIApplication *)application{
+    [[[UIApplication sharedApplication] delegate] applicationDidBecomeActive:application];
+    NSLog(@"ACTIVE");
+    
+    [self getTheTokenFromAppDelegate];
+}
+
 -(void)viewDidAppear:(BOOL)animated{
+    
+    [[NSNotificationQueue defaultQueue] dequeueNotificationsMatching:[NSNotification notificationWithName:@"tokenReady" object:self] coalesceMask:0];
+    
     PFQuery *query = [PFQuery queryWithClassName:@"Users"];
     self.usersArray=[NSMutableArray arrayWithArray:[query findObjects]];
     [self.tableView reloadData];
@@ -68,6 +114,7 @@
     vc.usersArray=self.usersArray;
     vc.currentUserObject=newUser;
 }
+
 
 /*
  // Override to support conditional editing of the table view.

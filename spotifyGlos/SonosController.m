@@ -64,6 +64,7 @@
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         if(block) {
             NSDictionary *responseXML = [XMLReader dictionaryForXMLData:responseObject error:nil];
+            NSLog(@"response xml: %@", responseXML);
             block(responseXML, nil);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -269,7 +270,7 @@
                                                             }];
 
                  [get resume];
-             
+
              }
              
              // Pandora:

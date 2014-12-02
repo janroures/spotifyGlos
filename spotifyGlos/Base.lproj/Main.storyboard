@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller-->
+        <!--Users-->
         <scene sceneID="W1w-Ae-vOM">
             <objects>
                 <tableViewController id="7Pj-rt-oq7" customClass="UsersTableViewController" sceneMemberID="viewController">
@@ -37,7 +37,7 @@
                             <outlet property="delegate" destination="7Pj-rt-oq7" id="gtt-Cy-6s9"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="jOA-dJ-nUj"/>
+                    <navigationItem key="navigationItem" title="Users" id="jOA-dJ-nUj"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eQ1-7r-uJ5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -81,6 +81,20 @@
                                 <color key="tintColor" white="0.40000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                                 <attributedString key="attributedText">
                                     <fragment content="making your voice heard">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="16" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Kr-Kx-tam">
+                                <rect key="frame" x="129" y="77" width="67" height="21"/>
+                                <color key="tintColor" white="0.40000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="IronVote">
                                         <attributes>
                                             <color key="NSColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="16" name="HelveticaNeue"/>
